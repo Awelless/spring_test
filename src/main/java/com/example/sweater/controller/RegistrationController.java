@@ -16,12 +16,12 @@ public class RegistrationController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/registration")
+    @GetMapping("registration")
     public String registration() {
         return "registration";
     }
 
-    @PostMapping("/registration")
+    @PostMapping("registration")
     public String addUser(User user, Model model) {
 
         if (!userService.addUser(user)) {
@@ -32,7 +32,7 @@ public class RegistrationController {
         return "redirect:/login";
     }
 
-    @GetMapping("/activate/{code}")
+    @GetMapping("activate/{code}")
     public String activate(
             @PathVariable String code,
             Model model) {

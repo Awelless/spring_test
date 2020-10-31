@@ -25,7 +25,7 @@ public class MainController {
     @Value("${upload.path}")
     private String uploadPath;
 
-    @GetMapping("/")
+    @GetMapping
     public String greeting(
             @AuthenticationPrincipal User user,
             Model model
@@ -36,7 +36,7 @@ public class MainController {
         return "greeting";
     }
 
-    @GetMapping("/main")
+    @GetMapping("main")
     public String main(
             @RequestParam(required = false, defaultValue = "") String filter,
             Model model
@@ -55,7 +55,7 @@ public class MainController {
         return "main";
     }
 
-    @PostMapping("/main")
+    @PostMapping("main")
     public String add(
             @AuthenticationPrincipal User user,
             @RequestParam String text,
