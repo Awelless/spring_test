@@ -1,2 +1,3 @@
+com\example\sweater\controller\ControllerUtils.class
 com\example\sweater\service\MailSender.class
 com\example\sweater\config\MailConfig.class

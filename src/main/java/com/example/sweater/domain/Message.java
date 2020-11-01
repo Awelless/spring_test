@@ -1,8 +1,13 @@
 package com.example.sweater.domain;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Data
@@ -14,9 +19,14 @@ public class Message {
     private Long id;
 
     @NonNull
+    @NotBlank(message = "Please, fill the message")
+    @Length(max = 2048, message = "Message is too long")
     private String text;
     @NonNull
+    @NotBlank(message = "Please, fill the tag")
+    @Length(max = 255, message = "Tag is too long")
     private String tag;
+
     @NonNull
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
