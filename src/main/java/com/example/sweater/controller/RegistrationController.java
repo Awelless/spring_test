@@ -53,12 +53,12 @@ public class RegistrationController {
             @PathVariable String code,
             Model model) {
 
-        boolean isActivted = userService.activateUser(code);
+        boolean isActivated = userService.activateUser(code);
 
-        if (isActivted) {
-            model.addAttribute("message", "User activated");
+        if (isActivated) {
+            model.addAttribute("activationSuccess", "User is activated");
         } else {
-            model.addAttribute("message", "Activation code is not found");
+            model.addAttribute("activationError", "Activation code is not found");
         }
 
         return "login";

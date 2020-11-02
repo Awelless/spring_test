@@ -26,7 +26,7 @@
         <label class="col-sm-1 col-form-label">Confirm password:</label>
         <div class="col-sm-3 mt-2">
             <input type="password" class="form-control ${(password2Error??)?string('is-invalid', '')}"
-                   name="password2" placeholder="set new password"/>
+                   name="password2" placeholder="re-enter the password"/>
             <#if password2Error??>
             <div class="invalid-feedback">
                 ${password2Error}

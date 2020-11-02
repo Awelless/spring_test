@@ -2,20 +2,25 @@
 
 <@c.page>
 
-    List of Users
+    <h5>
+        List of Users
+    </h5>
 
-    <table>
+    <table class="table table-sm table-hover table-fixed">
         <thead>
-        <tr>
-            <th>Name</th>
-            <th>Role</th>
-        </tr>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th></th>
+            </tr>
         </thead>
 
         <tbody>
         <#list users as user>
-        <tr>
+        <tr scope="row">
             <td>${user.username}</td>
+            <td>${user.email}</td>
             <td>
                 <#list user.roles as role>
                 ${role}<#sep>,

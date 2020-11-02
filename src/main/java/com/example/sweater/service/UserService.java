@@ -81,7 +81,14 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> findAll() {
-        return userRepo.findAll();
+        List<User> userList = userRepo.findAll();
+        userList.sort(new Comparator<User>() {
+            @Override
+            public int compare(User a, User b) {
+                return a.getUsername().compareTo(b.getUsername());
+            }
+        });
+        return userList;
     }
 
     public void saveUser(User user, String username, Map<String, String> form) {

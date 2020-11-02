@@ -2,18 +2,44 @@
 
 <@c.page>
 
-    User edit
+    <h5 class="mb-3">
+        User edit
+    </h5>
 
     <form method="post" action="/user">
         <input type="hidden" name="_csrf" value="${_csrf.token}" />
         <input type="hidden" name="userId" value="${user.id}" />
-        <input type="text" name="username" value="${user.username}"/ >
-        <#list roles as role>
-            <div>
-                <label><input type="checkbox" name="${role}" ${user.roles?seq_contains(role)?string("checked", "")} />${role}</label>
+
+        <h6>Username</h6>
+        <div class="form-group row">
+            <div class="col-sm-3">
+                <input type="text" class="form-control"
+                       name="username" value="${user.username}" />
             </div>
-        </#list>
+        </div>
+
+        <h6>Email</h6>
+        <div class="form-group row">
+            <div class="col-sm-3 ml-1">
+                ${user.email}
+            </div>
+        </div>
+
+        <h6>Roles</h6>
+        <div class="mb-2 ml-4">
+            <#list roles as role>
+            <div>
+                <input type="checkbox" class="form-check-input" id="checkbox${role}"
+                       name="${role}" ${user.roles?seq_contains(role)?string("checked", "")} />
+                <label class="form-check-label" for="checkbox${role}">${role}</label>
+            </div>
+            </#list>
+        </div>
+
         <button type="submit" class="btn btn-primary">Save</button>
+        <div class="btn btn-light">
+            <a href="/user">Back</a>
+        </div>
     </form>
 
 </@c.page>

@@ -1,6 +1,7 @@
 <#macro login path isRegisterForm>
 <form action="${path}" method="post">
     <#if isRegisterForm>
+    <h6>Email</h6>
     <div class="form-group row">
         <div class="col-sm-3">
             <input type="email" class="form-control ${(emailError??)?string('is-invalid', '')}"
@@ -13,6 +14,7 @@
         </div>
     </div>
     </#if>
+    <h6>Username</h6>
     <div class="form-group row">
         <div class="col-sm-3">
             <input type="text" class="form-control ${(usernameError??)?string('is-invalid', '')}"
@@ -24,6 +26,7 @@
         </#if>
         </div>
     </div>
+    <h6>Password</h6>
     <div class="form-group row">
         <div class="col-sm-3">
             <input type="password" class="form-control ${(passwordError??)?string('is-invalid', '')}"
@@ -36,6 +39,7 @@
         </div>
     </div>
     <#if isRegisterForm>
+    <h6>Re-enter password</h6>
     <div class="form-group row">
         <div class="col-sm-3">
             <input type="password" class="form-control ${(password2Error??)?string('is-invalid', '')}"
