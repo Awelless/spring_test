@@ -39,7 +39,7 @@
     <div class="form-group row">
         <div class="col-sm-3">
             <input type="password" class="form-control ${(password2Error??)?string('is-invalid', '')}"
-                   name="password2" placeholder="reenter password"/>
+                   name="password2" placeholder="re-enter the password"/>
             <#if password2Error??>
             <div class="invalid-feedback">
                 ${password2Error}

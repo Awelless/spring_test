@@ -3,7 +3,6 @@ package com.example.sweater.controller;
 import com.example.sweater.domain.Role;
 import com.example.sweater.domain.User;
 import com.example.sweater.service.UserService;
-import org.graalvm.compiler.lir.LIRInstruction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -46,7 +45,6 @@ public class UserController {
             @RequestParam String username,
             @RequestParam Map<String, String> form,
             @RequestParam("userId") User user
-
     ) {
         userService.saveUser(user, username, form);
 
@@ -58,8 +56,7 @@ public class UserController {
             @AuthenticationPrincipal User user,
             Model model
     ) {
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("email", user.getEmail());
+        model.addAttribute("user", user);
 
         return "profile";
     }
@@ -67,11 +64,26 @@ public class UserController {
     @PostMapping("profile")
     public String updateProfile(
             @AuthenticationPrincipal User user,
+            @RequestParam String email,
             @RequestParam String password,
-            @RequestParam String email
+            @RequestParam String password2,
+            Model model
     ) {
-        userService.updateProfile(user, passwordEncoder.encode(password), email);
+        model.addAttribute("user", user);
 
-        return "redirect:/user/profile";
+        if (!password.equals(password2)) {
+            model.addAttribute("password2Error", "Passwords are different");
+            return "profile";
+        }
+
+        boolean isUpdated = userService.updateProfile(user, password, email);
+
+        if (!isUpdated) {
+            return "redirect:/user/profile";
+        }
+
+        model.addAttribute("message", "Account is updated");
+
+        return "profile";
     }
 }
