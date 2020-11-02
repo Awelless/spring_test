@@ -51,6 +51,15 @@ public class UserController {
         return "redirect:/user";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("delete")
+    public String userDelete(
+            @RequestParam("userId") User user
+    ) {
+        userService.deleteUser(user);
+        return "redirect:/user";
+    }
+
     @GetMapping("profile")
     public String getProfile(
             @AuthenticationPrincipal User user,

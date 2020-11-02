@@ -13,6 +13,7 @@
                 <th>Email</th>
                 <th>Roles</th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
 
@@ -26,7 +27,18 @@
                 ${role}<#sep>,
             </#list>
             </td>
-            <td><a href="/user/${user.id}">Edit</a></td>
+            <td>
+                <div class="btn btn-light">
+                    <a href="/user/${user.id}">Edit</a>
+                </div>
+            </td>
+            <td>
+                <form method="post" action="/user/delete">
+                    <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                    <input type="hidden" name="userId" value="${user.id}" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
         </tr>
         </#list>
         </tbody>

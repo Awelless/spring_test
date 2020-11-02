@@ -137,4 +137,8 @@ public class UserService implements UserDetailsService {
 
         return isUpdated;
     }
+
+    public void deleteUser(User user) {
+        userRepo.delete(user);
+    }
 }
