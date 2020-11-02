@@ -28,7 +28,7 @@
                     </#if>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-9">
+                    <div class="form-group col-md-8">
                         <input type="text" class="form-control ${(tagError??)?string('is-invalid', '')}"
                                value="<#if message??>${message.tag}</#if>" name="tag" placeholder="tag">
                         <#if tagError??>
@@ -37,7 +37,7 @@
                         </div>
                         </#if>
                     </div>
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-4">
                         <div class="custom-file">
                             <input type="file" name="file" accept="image/*" class="custom-file-input" id="customFile">
                             <label class="custom-file-label" for="customFile">Choose file</label>
