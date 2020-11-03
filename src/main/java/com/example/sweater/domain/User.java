@@ -30,9 +30,6 @@ public class User implements UserDetails {
     @NotBlank(message = "Password can't be empty")
     private String password;
     @NonNull
-    @Transient
-    private String password2;
-    @NonNull
     @NotBlank(message = "Email can't be empty")
     @Email(message = "Email is not correct")
     private String email;
