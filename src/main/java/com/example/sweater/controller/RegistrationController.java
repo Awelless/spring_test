@@ -49,13 +49,6 @@ public class RegistrationController {
             BindingResult bindingResult,
             Model model
     ) {
-        String url = String.format(CAPTCHA_URL, secret, captchaResponse);
-        CaptchaResponseDto response = restTemplate.postForObject(url, Collections.emptyList(), CaptchaResponseDto.class);
-
-        if (!response.isSuccess()) {
-            model.addAttribute("captchaError", "Some toubles with captcha. Try again");
-        }
-
         boolean isPasswordsEqual = user.getPassword().equals(passwordConfirm);
         if (!isPasswordsEqual) {
             model.addAttribute("password2Error", "Passwords are different!");
@@ -66,9 +59,16 @@ public class RegistrationController {
             model.addAttribute("password2Error", "Confirm the password");
         }
 
-        if (isConfirmEmpty || !isPasswordsEqual || !response.isSuccess() || bindingResult.hasErrors()) {
+        if (isConfirmEmpty || !isPasswordsEqual || bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
+            return "registration";
+        }
+
+        String url = String.format(CAPTCHA_URL, secret, captchaResponse);
+        CaptchaResponseDto response = restTemplate.postForObject(url, Collections.emptyList(), CaptchaResponseDto.class);
+        if (!response.isSuccess()) {
+            model.addAttribute("captchaError", "Some toubles with captcha. Try again");
             return "registration";
         }
 

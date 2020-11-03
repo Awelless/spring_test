@@ -1,10 +1,18 @@
-<#import "/parts/common.ftlh" as c>
-<#import "/parts/login.ftlh" as l>
+<#import "parts/common.ftlh" as c>
+<#import "parts/registration.ftlh" as r>
 
-<@c.page>
+<@c.page true>
+
     <div class="mb-3">
-        <h5>Add new user</h5>
+        <h5>Sign Up</h5>
     </div>
-    ${message?ifExists}
-    <@l.login "/registration" true/>
+
+    <#if captchaError??>
+    <div class="alert alert-danger">
+        ${captchaError}
+    </div>
+    </#if>
+
+    <@r.registration/>
+
 </@c.page>

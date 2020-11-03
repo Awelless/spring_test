@@ -1,4 +1,7 @@
-<#macro page>
+<#import "navbar.ftlh" as n>
+
+<#macro page isLoginRegisterForm>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +16,7 @@
     <script src='https://www.google.com/recaptcha/api.js' async defer></script>
 </head>
 <body>
-    <#include "navbar.ftlh">
+    <@n.navbar isLoginRegisterForm />
     <div class="container mt-4">
         <#nested>
     </div>

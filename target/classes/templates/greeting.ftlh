@@ -1,8 +1,10 @@
-<#import "/parts/common.ftlh" as c>
+<#import "parts/common.ftlh" as c>
 
-<@c.page>
+<@c.page false>
+
     <h5>Hello, ${username}</h5>
     <div>
         Testing spring boot
     </div>
+
 </@c.page>

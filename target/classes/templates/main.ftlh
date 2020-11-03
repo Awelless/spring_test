@@ -1,6 +1,7 @@
-<#import "/parts/common.ftlh" as c>
+<#import "parts/common.ftlh" as c>
 
-<@c.page>
+<@c.page false>
+
     <div class="form-row">
         <form method="get" action="/main" class="form-inline">
             <input type="text" name="filter" value="${filter?ifExists}" class="form-control ml-1" placeholder="search by tag"/>
@@ -52,23 +53,23 @@
         </div>
     </div>
 
-<div class="card-columns">
-    <#list messages as message>
-        <div class="card my-3">
-            <#if message.filename??>
-                <img src="/img/${message.filename}" class="card-img-top">
-            </#if>
-            <div class="m-2">
-                <span>${message.text}</span>
-                <i>${message.tag}</i>
+    <div class="card-columns">
+        <#list messages as message>
+            <div class="card my-3">
+                <#if message.filename??>
+                    <img src="/img/${message.filename}" class="card-img-top">
+                </#if>
+                <div class="m-2">
+                    <span>${message.text}</span>
+                    <i>${message.tag}</i>
+                </div>
+                <div class="card-footer text-muted">
+                    ${message.author}
+                </div>
             </div>
-            <div class="card-footer text-muted">
-                ${message.author}
-            </div>
-        </div>
-    <#else>
-        No messages
-    </#list>
-</div>
+        <#else>
+            No messages
+        </#list>
+    </div>
 
 </@c.page>
