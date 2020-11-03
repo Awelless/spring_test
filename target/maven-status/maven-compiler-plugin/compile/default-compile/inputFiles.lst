@@ -4,6 +4,7 @@ E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\controller
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\config\MvcConfig.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\config\MailConfig.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\controller\RegistrationController.java
+E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\domain\dto\CaptchaResponseDto.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\domain\User.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\domain\Message.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\repos\MessageRepo.java
