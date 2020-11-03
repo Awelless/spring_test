@@ -35,11 +35,19 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public boolean addUser(User user) {
-        User userFromDb = userRepo.findByUsername(user.getUsername());
+    public Map<String, String> addUser(User user) {
 
-        if (userFromDb != null) {
-            return false;
+        Map<String, String> errors = new TreeMap<String, String>();
+
+        if (userRepo.findByEmail(user.getEmail()) != null) {
+            errors.put("emailError", "Email is already taken");
+        }
+        if (userRepo.findByUsername(user.getUsername()) != null) {
+            errors.put("usernameError", "Username " + user.getUsername() + " is not available");
+        }
+
+        if (errors.size() > 0) {
+            return errors;
         }
 
         user.setActive(false);
@@ -51,7 +59,7 @@ public class UserService implements UserDetailsService {
 
         sendMessage(user);
 
-        return true;
+        return null;
     }
 
     private void sendMessage(User user) {
@@ -110,6 +118,7 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean updateProfile(User user, String password, String email) {
+
         String userEmail = user.getEmail();
 
         boolean isUpdated = false;

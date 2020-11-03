@@ -7,7 +7,7 @@
     <div class="form-group row">
         <div class="col-sm-3">
             <input type="text" class="form-control ${(usernameError??)?string('is-invalid', '')}"
-                   name="username" value="<#if user??>${user.username}</#if>" placeholder="username"/>
+                   name="username" value="<#if usernameLogin??>${usernameLogin}</#if>" placeholder="username"/>
             <#if usernameError??>
             <div class="invalid-feedback">
                 ${usernameError}

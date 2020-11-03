@@ -36,12 +36,12 @@ public class RegistrationController {
     @Autowired
     private RestTemplate restTemplate;
 
-    @GetMapping("registration")
+    @GetMapping("/registration")
     public String registration() {
         return "registration";
     }
 
-    @PostMapping("registration")
+    @PostMapping("/registration")
     public String addUser(
             @RequestParam("password2") String passwordConfirm,
             @RequestParam("g-recaptcha-response") String captchaResponse,
@@ -59,7 +59,13 @@ public class RegistrationController {
             model.addAttribute("password2Error", "Confirm the password");
         }
 
-        if (isConfirmEmpty || !isPasswordsEqual || bindingResult.hasErrors()) {
+        Map<String, String> userOriginalityErrors =
+                StringUtils.isEmpty(user.getUsername()) ? null : userService.addUser(user);
+        if (userOriginalityErrors != null) {
+            model.mergeAttributes(userOriginalityErrors);
+        }
+
+        if (isConfirmEmpty || !isPasswordsEqual || userOriginalityErrors != null || bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
             return "registration";
@@ -72,12 +78,7 @@ public class RegistrationController {
             return "registration";
         }
 
-        if (!userService.addUser(user)) {
-            model.addAttribute("usernameError", "User exists");
-            return "registration";
-        }
-
-        return "redirect:/login";
+        return "login";
     }
 
     @GetMapping("activate/{code}")

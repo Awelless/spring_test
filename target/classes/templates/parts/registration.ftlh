@@ -6,7 +6,7 @@
     <h6>Email</h6>
     <div class="form-group row">
         <div class="col-sm-3">
-            <input type="email" class="form-control ${(emailError??)?string('is-invalid', '')}"
+            <input type="text" class="form-control ${(emailError??)?string('is-invalid', '')}"
                    name="email" value="<#if user??>${user.email}</#if>" placeholder="email"/>
             <#if emailError??>
             <div class="invalid-feedback">

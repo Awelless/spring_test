@@ -22,7 +22,7 @@
 
         <#if user.getUsername() == curUsername>
             <#assign
-                trType = "success"
+                trType = "primary"
             >
         <#else>
             <#assign

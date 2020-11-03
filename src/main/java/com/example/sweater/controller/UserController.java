@@ -14,22 +14,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @Controller
+@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public String userList(Model model) {
         model.addAttribute("users", userService.findAll());
         return "userList";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("{user}")
+    @GetMapping("/{user}")
     public String userEditForm(
             @PathVariable User user,
             Model model
@@ -39,7 +36,6 @@ public class UserController {
         return "userEdit";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public String userSave(
             @RequestParam String username,
@@ -51,48 +47,11 @@ public class UserController {
         return "redirect:/user";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping("delete")
+    @PostMapping("/delete")
     public String userDelete(
             @RequestParam("userId") User user
     ) {
         userService.deleteUser(user);
         return "redirect:/user";
-    }
-
-    @GetMapping("profile")
-    public String getProfile(
-            @AuthenticationPrincipal User user,
-            Model model
-    ) {
-        model.addAttribute("user", user);
-
-        return "profile";
-    }
-
-    @PostMapping("profile")
-    public String updateProfile(
-            @AuthenticationPrincipal User user,
-            @RequestParam String email,
-            @RequestParam String password,
-            @RequestParam String password2,
-            Model model
-    ) {
-        model.addAttribute("user", user);
-
-        if (!password.equals(password2)) {
-            model.addAttribute("password2Error", "Passwords are different");
-            return "profile";
-        }
-
-        boolean isUpdated = userService.updateProfile(user, password, email);
-
-        if (!isUpdated) {
-            return "redirect:/user/profile";
-        }
-
-        model.addAttribute("message", "Account is updated");
-
-        return "profile";
     }
 }

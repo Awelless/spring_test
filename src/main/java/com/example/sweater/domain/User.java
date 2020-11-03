@@ -27,11 +27,11 @@ public class User implements UserDetails {
     @NotBlank(message = "Username can't be empty")
     private String username;
     @NonNull
-    @NotBlank(message = "Password can't be empty")
+    @NotBlank(message = "Enter a password")
     private String password;
     @NonNull
-    @NotBlank(message = "Email can't be empty")
-    @Email(message = "Email is not correct")
+    @NotBlank(message = "Email is invalid")
+    @Email(message = "Email is invalid")
     private String email;
 
     @NonNull
