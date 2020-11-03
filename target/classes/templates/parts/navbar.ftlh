@@ -16,7 +16,7 @@
                 <a class="nav-link" href="/main">Messages</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="/user/profile">Profile</a>
+                <a class="nav-link" href="/profile">Profile</a>
             </li>
             </#if>
             <#if isAdmin>

@@ -12,7 +12,7 @@
     </div>
     </#if>
 
-    <form method="post">
+    <form method="post" action="/profile">
         <div class="form-group row">
             <label class="col-sm-1 col-form-label">Email:</label>
             <div class="col-sm-3">
