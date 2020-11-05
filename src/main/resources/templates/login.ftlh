@@ -1,7 +1,7 @@
 <#import "parts/common.ftlh" as c>
 <#import "parts/login.ftlh" as l>
 
-<@c.page true>
+<@c.page "Sing In" true>
 
     <div class="mb-3">
         <h5>Sign In</h5>

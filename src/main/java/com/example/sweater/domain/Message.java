@@ -37,4 +37,8 @@ public class Message {
     public String getAuthorName() {
         return author != null ? author.getUsername() : "<none>";
     }
+
+    public String getNormalFilename() {
+        return filename.substring(37);
+    }
 }

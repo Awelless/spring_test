@@ -1,6 +1,7 @@
 <#import "parts/common.ftlh" as c>
+<#import "parts/messageEdit.ftlh" as m>
 
-<@c.page false>
+<@c.page "Messages" false>
 
     <div class="form-row">
         <form method="get" action="/main" class="form-inline">
@@ -9,7 +10,7 @@
         </form>
     </div>
 
-    <#include "parts/messageEdit.ftlh" />
+    <@m.messageBox false />
 
     <div class="card-columns">
         <#include "parts/messageList.ftlh" />

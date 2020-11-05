@@ -1,8 +1,8 @@
 <#import "parts/common.ftlh" as c>
 
-<@c.page false>
+<@c.page "Edit user" false>
 
-    <h5 class="mb-3">User edit</h5>
+    <h5 class="mb-3">Edit user</h5>
 
     <form method="post" action="/user">
         <input type="hidden" name="_csrf" value="${_csrf.token}" />

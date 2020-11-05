@@ -7,7 +7,7 @@
         curUser     = Session.SPRING_SECURITY_CONTEXT.authentication.principal
         curUsername = curUser.getUsername()
         isAdmin     = curUser.isAdmin()
-        curUserId    = curUser.getId()
+        curUserId   = curUser.getId()
     >
 <#else>
     <#assign

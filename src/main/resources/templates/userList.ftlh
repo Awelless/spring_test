@@ -1,7 +1,7 @@
 <#import "parts/common.ftlh" as c>
 <#include "parts/security.ftlh">
 
-<@c.page false>
+<@c.page "Users" false>
 
     <h5>List of Users</h5>
 
