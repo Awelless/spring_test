@@ -18,6 +18,9 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/profile">Profile</a>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/user-messages/${curUserId}">My messages</a>
+            </li>
             </#if>
             <#if isAdmin>
             <li class="nav-item active">
