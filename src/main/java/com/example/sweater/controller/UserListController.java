@@ -42,7 +42,7 @@ public class UserListController {
     ) {
         userService.saveUser(user, username, form);
 
-        return "redirect:/user";
+        return "redirect:/userlist";
     }
 
     @PostMapping("/delete")
@@ -50,6 +50,6 @@ public class UserListController {
             @RequestParam("userId") User user
     ) {
         userService.deleteUser(user);
-        return "redirect:/user";
+        return "redirect:/userlist";
     }
 }

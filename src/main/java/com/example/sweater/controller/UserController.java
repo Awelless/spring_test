@@ -4,7 +4,6 @@ import com.example.sweater.domain.Message;
 import com.example.sweater.domain.User;
 import com.example.sweater.repos.MessageRepo;
 import com.example.sweater.service.UserService;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -35,6 +34,8 @@ public class UserController {
             Model model
     ) {
         Set<Message> messages = user.getMessages();
+
+        System.out.println("size " + messages.size());
 
         model.addAttribute("messages", messages);
         model.addAttribute("message", message);
@@ -69,6 +70,16 @@ public class UserController {
 
             messageRepo.save(message);
         }
+
+        return "redirect:/user/" + userId;
+    }
+
+    @GetMapping("/{user}/{message}/delete")
+    public String deleteMessage(
+            @PathVariable("user") Long userId,
+            @PathVariable Message message
+    ) {
+        messageRepo.delete(message);
 
         return "redirect:/user/" + userId;
     }

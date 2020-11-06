@@ -1,5 +1,6 @@
 <#import "parts/common.ftlh" as c>
-<#import "parts/messageEdit.ftlh" as m>
+<#import "parts/messageEdit.ftlh" as me>
+<#import "parts/messageList.ftlh" as ml>
 <#include "parts/security.ftlh">
 
 <@c.page userPage.username false>
@@ -42,10 +43,10 @@
     </div>
 
     <#if userPage.id == currentUserId && message??>
-        <@m.messageBox true />
+        <@me.messageBox true />
     <#else>
         <div class="card-columns">
-            <#include "parts/messageList.ftlh" />
+            <@ml.messageList />
         </div>
     </#if>
 

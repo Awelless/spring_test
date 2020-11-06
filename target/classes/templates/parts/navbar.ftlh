@@ -13,7 +13,10 @@
         <ul class="navbar-nav mr-auto">
             <#if currentUser??>
             <li class="nav-item active">
-                <a class="nav-link" href="/main">Messages</a>
+                <a class="nav-link" href="/news">News</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/messages">All Messages</a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="/user/${currentUserId}">My profile</a>

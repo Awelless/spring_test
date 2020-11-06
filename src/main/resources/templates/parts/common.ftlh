@@ -16,10 +16,16 @@
           integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <script src='https://www.google.com/recaptcha/api.js' async defer></script>
 </head>
+
 <body>
     <@n.navbar isLoginRegisterForm />
+
     <div class="container mt-4">
+    <#if notWorking??>
+        <#include "notWorking.ftlh">
+    <#else>
         <#nested>
+    </#if>
     </div>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -32,5 +38,6 @@
         })
     </script>
 </body>
+
 </html>
 </#macro>
