@@ -4,15 +4,15 @@
 
 <#if known>
     <#assign
-        curUser     = Session.SPRING_SECURITY_CONTEXT.authentication.principal
-        curUsername = curUser.getUsername()
-        isAdmin     = curUser.isAdmin()
-        curUserId   = curUser.getId()
+        currentUser     = Session.SPRING_SECURITY_CONTEXT.authentication.principal
+        currentUsername = currentUser.getUsername()
+        isAdmin         = currentUser.isAdmin()
+        currentUserId   = currentUser.getId()
     >
 <#else>
     <#assign
-        curUsername = ""
-        isAdmin     = false
-        curUserId   = -1
+        currentUsername = ""
+        isAdmin         = false
+        currentUserId   = -1
     >
 </#if>

@@ -1,10 +1,10 @@
 <#import "parts/common.ftlh" as c>
 
-<@c.page "Edit user" false>
+<@c.page "Editing ${user.username}" false>
 
-    <h5 class="mb-3">Edit user</h5>
+    <h4 class="mb-3">Editing ${user.username}</h4>
 
-    <form method="post" action="/user">
+    <form method="post" action="/userlist">
         <input type="hidden" name="_csrf" value="${_csrf.token}" />
         <input type="hidden" name="userId" value="${user.id}" />
 
@@ -36,7 +36,7 @@
 
         <button type="submit" class="btn btn-primary">Save</button>
         <div class="btn btn-light">
-            <a href="/user">Back</a>
+            <a href="/userlist">Back</a>
         </div>
     </form>
 

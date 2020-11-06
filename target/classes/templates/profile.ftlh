@@ -1,6 +1,6 @@
 <#import "parts/common.ftlh" as c>
 
-<@c.page "My Profile" false>
+<@c.page "My Settings" false>
 
     <#if user??>
         <h5>${user.username}</h5>

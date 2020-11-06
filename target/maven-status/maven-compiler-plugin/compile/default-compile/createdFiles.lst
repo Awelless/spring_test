@@ -1,8 +1,8 @@
 com\example\sweater\controller\ControllerUtils.class
 com\example\sweater\service\UserService$1.class
+com\example\sweater\controller\SettingsController.class
 com\example\sweater\controller\LoginController.class
 com\example\sweater\domain\dto\CaptchaResponseDto.class
 com\example\sweater\service\MailSender.class
-com\example\sweater\controller\UserMessagesController.class
-com\example\sweater\controller\ProfileController.class
 com\example\sweater\config\MailConfig.class
+com\example\sweater\controller\UserListController.class

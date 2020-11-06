@@ -4,7 +4,7 @@
 <@c.page "Sing In" true>
 
     <div class="mb-3">
-        <h5>Sign In</h5>
+        <h4>Sign In</h4>
     </div>
 
     <#if activationSuccess??>

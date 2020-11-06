@@ -4,7 +4,7 @@
 <@c.page "Sign Up" true>
 
     <div class="mb-3">
-        <h5>Sign Up</h5>
+        <h4>Sign Up</h4>
     </div>
 
     <#if captchaError??>

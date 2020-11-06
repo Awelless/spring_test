@@ -2,7 +2,7 @@
 
 <@c.page "Welcome!" false>
 
-    <h5>Hello, ${username}</h5>
+    <h4>Hello, ${username}</h4>
     <div>
         Testing spring boot
     </div>

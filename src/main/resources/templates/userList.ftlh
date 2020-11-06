@@ -3,7 +3,9 @@
 
 <@c.page "Users" false>
 
-    <h5>List of Users</h5>
+    <div class="text-center">
+        <h4>List of Users</h4>
+    </div>
 
     <table class="table table-sm table-hover table-fixed">
         <thead>
@@ -20,7 +22,7 @@
 
         <#list users as user>
 
-        <#if user.getUsername() == curUsername>
+        <#if user.id == currentUserId>
             <#assign
                 trType = "primary"
             >
@@ -39,15 +41,15 @@
             </#list>
             </td>
             <td>
-                <#if !user.roles?seq_contains('ADMIN') || user.getUsername() == curUsername>
+                <#if !user.roles?seq_contains('ADMIN') || user.id == currentUserId>
                 <div class="btn btn-light btn-sm">
-                    <a href="/user/${user.id}">Edit</a>
+                    <a href="/userlist/${user.id}">Edit</a>
                 </div>
                 </#if>
             </td>
             <td>
                 <#if !user.roles?seq_contains('ADMIN')>
-                <form method="post" action="/user/delete">
+                <form method="post" action="/userlist/delete">
                     <input type="hidden" name="_csrf" value="${_csrf.token}" />
                     <input type="hidden" name="userId" value="${user.id}" />
                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
