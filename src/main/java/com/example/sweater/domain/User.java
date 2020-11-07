@@ -49,7 +49,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Message> messages;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
             name = "user_subscriptions",
             joinColumns = { @JoinColumn(name = "channel_id") },
@@ -57,7 +57,7 @@ public class User implements UserDetails {
     )
     private Set<User> subscribers = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
             name = "user_subscriptions",
             joinColumns = { @JoinColumn(name = "subscriber_id") },

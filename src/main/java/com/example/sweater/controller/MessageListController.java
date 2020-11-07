@@ -16,9 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class MessageListController {
@@ -76,15 +77,14 @@ public class MessageListController {
             @AuthenticationPrincipal User user,
             Model model
     ) {
-        /*
-         * failed to lazily initialize a collection of role: com.example.sweater.domain.User.messages, could not initialize proxy - no Session
-         */
-        //model.addAttribute("messages", user.getMessages());
+        List<Message> messages = (List<Message>) messageRepo.findAll();
 
-        //realise with stream api
-        //model.addAttribute("messages", user.getSubscriptionsMessages());
+        messages = messages.stream()
+                    .filter(curMessage ->
+                            curMessage.getAuthor().getSubscribers().contains(user))
+                    .collect(Collectors.toList());
 
-        model.addAttribute("notWorking", true);
+        model.addAttribute("messages", messages);
 
         return "news";
     }

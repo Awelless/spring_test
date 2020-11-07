@@ -35,8 +35,6 @@ public class UserController {
     ) {
         Set<Message> messages = user.getMessages();
 
-        System.out.println("size " + messages.size());
-
         model.addAttribute("messages", messages);
         model.addAttribute("message", message);
         model.addAttribute("userPage", user);
