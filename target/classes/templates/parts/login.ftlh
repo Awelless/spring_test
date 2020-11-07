@@ -20,7 +20,7 @@
     <div class="form-group row">
         <div class="col-sm-3">
             <input type="password" class="form-control ${(passwordError??)?string('is-invalid', '')}"
-                   name="password" placeholder="password"/>
+                   name="password" placeholder="password" />
             <#if passwordError??>
             <div class="invalid-feedback">
                 ${passwordError}

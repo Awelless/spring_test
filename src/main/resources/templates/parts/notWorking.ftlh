@@ -1,6 +1,6 @@
 <div class="card-columns">
     <div class="card my-3">
-        <img src="/static/doesntWork.jpg" class="card-img-top">
+        <img src="/static/doesntWork.jpg" class="card-img-top" />
 
         <div class="m-2">
             <span>It isn't working now :(</span><br />

@@ -45,9 +45,7 @@
     <#if (userPage.id == currentUserId || isAdmin) && message??>
         <@me.messageBox true />
     <#else>
-        <div class="card-columns">
-            <@ml.messageList />
-        </div>
+        <@ml.messageList />
     </#if>
 
 </@c.page>

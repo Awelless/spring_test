@@ -6,15 +6,13 @@
 
     <div class="form-row">
         <form method="get" action="/messages" class="form-inline">
-            <input type="text" name="filter" value="${filter?ifExists}" class="form-control ml-1" placeholder="search by tag"/>
+            <input type="text" name="filter" value="${filter?ifExists}" class="form-control ml-1" placeholder="search by tag" />
             <button type="submit" class="btn btn-primary ml-2">Search</button>
         </form>
     </div>
 
     <@me.messageBox false />
 
-    <div class="card-columns">
-        <@ml.messageList />
-    </div>
+    <@ml.messageList />
 
 </@c.page>

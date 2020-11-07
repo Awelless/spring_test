@@ -3,8 +3,6 @@
 
 <@c.page "News" false>
 
-    <div class="card-columns">
-        <@ml.messageList />
-    </div>
+    <@ml.messageList />
 
 </@c.page>

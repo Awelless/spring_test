@@ -41,4 +41,9 @@ public class Message {
     public String getNormalFilename() {
         return filename.substring(37);
     }
+
+    @Override
+    public String toString() {
+        return text;
+    }
 }
