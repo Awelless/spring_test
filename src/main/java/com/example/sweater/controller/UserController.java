@@ -1,6 +1,7 @@
 package com.example.sweater.controller;
 
 import com.example.sweater.domain.Message;
+import com.example.sweater.domain.Role;
 import com.example.sweater.domain.User;
 import com.example.sweater.repos.MessageRepo;
 import com.example.sweater.service.UserService;
@@ -48,7 +49,7 @@ public class UserController {
 
     @PostMapping("/{user}")
     public String updateMessage(
-            @AuthenticationPrincipal User curUser,
+            @AuthenticationPrincipal User currentUser,
             @PathVariable("user") Long userId,
             @RequestParam("messageId") Message message,
             @RequestParam("text") String newText,
@@ -56,7 +57,7 @@ public class UserController {
             @RequestParam("file") MultipartFile newFile
     ) throws IOException {
 
-        if (message.getAuthor().equals(curUser)) {
+        if (currentUser.getRoles().contains(Role.ADMIN) || message.getAuthor().equals(currentUser)) {
             if (!StringUtils.isEmpty(newText)) {
                 message.setText(newText);
             }

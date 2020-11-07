@@ -42,7 +42,7 @@
         </a>
     </div>
 
-    <#if userPage.id == currentUserId && message??>
+    <#if (userPage.id == currentUserId || isAdmin) && message??>
         <@me.messageBox true />
     <#else>
         <div class="card-columns">
