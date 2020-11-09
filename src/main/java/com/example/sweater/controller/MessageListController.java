@@ -2,9 +2,8 @@ package com.example.sweater.controller;
 
 import com.example.sweater.domain.Message;
 import com.example.sweater.domain.User;
-import com.example.sweater.repos.MessageRepo;
+import com.example.sweater.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,15 +17,12 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
 public class MessageListController {
     @Autowired
-    private MessageRepo messageRepo;
-    @Value("${upload.path}")
-    private String uploadPath;
+    private MessageService messageService;
 
     @GetMapping("/messages")
     public String getMessages(
@@ -37,9 +33,9 @@ public class MessageListController {
         Iterable<Message> messages;
 
         if (filter != null && !filter.isEmpty()) {
-            messages = messageRepo.findByTag(filter);
+            messages = messageService.findByTag(filter);
         } else {
-            messages = messageRepo.findAll();
+            messages = messageService.findAll();
         }
 
         model.addAttribute("messages", messages);
@@ -66,8 +62,8 @@ public class MessageListController {
             return "messages";
         }
 
-        ControllerUtils.saveFile(message, file, uploadPath);
-        messageRepo.save(message);
+        messageService.saveFile(message, file);
+        messageService.saveMessage(message);
 
         return "redirect:/messages";
     }
@@ -77,7 +73,7 @@ public class MessageListController {
             @AuthenticationPrincipal User user,
             Model model
     ) {
-        List<Message> messages = (List<Message>) messageRepo.findAll();
+        List<Message> messages = (List<Message>) messageService.findAll();
 
         messages = messages.stream()
                     .filter(curMessage ->

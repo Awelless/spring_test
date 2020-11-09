@@ -3,10 +3,9 @@ package com.example.sweater.controller;
 import com.example.sweater.domain.Message;
 import com.example.sweater.domain.Role;
 import com.example.sweater.domain.User;
-import com.example.sweater.repos.MessageRepo;
+import com.example.sweater.service.MessageService;
 import com.example.sweater.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,11 +20,9 @@ import java.util.Set;
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-    private MessageRepo messageRepo;
-    @Value("${upload.path}")
-    private String uploadPath;
-    @Autowired
     private UserService userService;
+    @Autowired
+    private MessageService messageService;
 
     @GetMapping("/{user}")
     public String userMessages(
@@ -65,9 +62,8 @@ public class UserController {
                 message.setTag(newTag);
             }
 
-            ControllerUtils.saveFile(message, newFile, uploadPath);
-
-            messageRepo.save(message);
+            messageService.saveFile(message, newFile);
+            messageService.saveMessage(message);
         }
 
         return "redirect:/user/" + userId;
@@ -78,7 +74,7 @@ public class UserController {
             @PathVariable("user") Long userId,
             @PathVariable Message message
     ) {
-        messageRepo.delete(message);
+        messageService.deleteMessage(message);
 
         return "redirect:/user/" + userId;
     }

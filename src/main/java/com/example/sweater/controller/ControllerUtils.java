@@ -29,26 +29,4 @@ public class ControllerUtils {
         Map<String, String> errorsMap = bindingResult.getFieldErrors().stream().collect(collector);
         return errorsMap;
     }
-
-    static void saveFile(
-            Message message,
-            MultipartFile file,
-            @NonNull String uploadPath
-    ) throws IOException {
-
-        if (file == null || file.getOriginalFilename().isEmpty()) {
-            return;
-        }
-
-        File uploadDir = new File(uploadPath);
-
-        if (!uploadDir.exists()) {
-            uploadDir.mkdir();
-        }
-
-        String resultFilename = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
-        file.transferTo(new File(uploadPath + "/" + resultFilename));
-
-        message.setFilename(resultFilename);
-    }
 }
