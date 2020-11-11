@@ -4,6 +4,10 @@ import com.example.sweater.domain.Message;
 import com.example.sweater.domain.User;
 import com.example.sweater.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,18 +31,20 @@ public class MessageListController {
     @GetMapping("/messages")
     public String getMessages(
             @RequestParam(required = false, defaultValue = "") String filter,
+            @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable,
             Model model
     ) {
 
-        Iterable<Message> messages;
+        Page<Message> page;
 
         if (filter != null && !filter.isEmpty()) {
-            messages = messageService.findByTag(filter);
+            page = messageService.findByTag(filter, pageable);
         } else {
-            messages = messageService.findAll();
+            page = messageService.findAll(pageable);
         }
 
-        model.addAttribute("messages", messages);
+        model.addAttribute("page", page);
+        model.addAttribute("url", "/messages");
         model.addAttribute("filter", filter);
 
         return "messages";
@@ -71,16 +77,14 @@ public class MessageListController {
     @GetMapping("/news")
     public String getNews(
             @AuthenticationPrincipal User user,
+            @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable,
             Model model
     ) {
-        List<Message> messages = (List<Message>) messageService.findAll();
 
-        messages = messages.stream()
-                    .filter(curMessage ->
-                            curMessage.getAuthor().getSubscribers().contains(user))
-                    .collect(Collectors.toList());
+        Page<Message> page = messageService.findSubscriptionMessages(user, pageable);
 
-        model.addAttribute("messages", messages);
+        model.addAttribute("page", page);
+        model.addAttribute("url", "/news");
 
         return "news";
     }

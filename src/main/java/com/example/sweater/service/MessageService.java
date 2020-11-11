@@ -1,9 +1,13 @@
 package com.example.sweater.service;
 
 import com.example.sweater.domain.Message;
+import com.example.sweater.domain.User;
 import com.example.sweater.repos.MessageRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class MessageService {
@@ -40,16 +45,25 @@ public class MessageService {
         message.setFilename(resultFilename);
     }
 
-    public Iterable<Message> findAll() {
-        return messageRepo.findAll();
+    public Page<Message> findAll(Pageable pageable) {
+        return messageRepo.findAll(pageable);
     }
 
     public void saveMessage(Message message) {
         messageRepo.save(message);
     }
 
-    public List<Message> findByTag(String tag) {
-        return messageRepo.findByTag(tag);
+    public Page<Message> findByTag(String tag, Pageable pageable) {
+        return messageRepo.findByTag(tag, pageable);
+    }
+
+    public Page<Message> findSubscriptionMessages(User user, Pageable pageable) {
+
+        Page<Message> messages = new PageImpl<Message>(messageRepo.findAll(pageable)
+                .filter(message -> message.getAuthor().getSubscribers().contains(user))
+                .toList());
+
+        return messages;
     }
 
     public void deleteMessage(Message message) {
