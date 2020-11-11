@@ -3,9 +3,8 @@
 
 <#macro messageList>
 
-<div class="mt-3">
-    <@p.pager url page />
-</div>
+
+<div class="mt-3" />
 
 <div class="card-columns" id="message-list">
 
@@ -45,7 +44,5 @@
         No messages
     </#list>
 </div>
-
-<@p.pager url page />
 
 </#macro>

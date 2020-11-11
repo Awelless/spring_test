@@ -12,13 +12,15 @@
             bodyAfter = (pageNumber > 2 && pageNumber < totalPages - 3)?then([pageNumber + 1, pageNumber + 2], [])
 
             body = head + bodyBefore + (pageNumber > 3 && pageNumber < totalPages - 2)?then([pageNumber], []) + bodyAfter + tail
->
+        >
     <#else>
         <#assign
+            totalPages = page.getTotalPages()
             body = 1..page.getTotalPages()
         >
     </#if>
 
+    <#if totalPages gt 1>
     <div class="row">
         <div class="col">
             <ul class="pagination">
@@ -31,13 +33,14 @@
                             <span class="page-link">...</span>
                         </li>
                     <#else>
-                        <li class="page-item ${(p - 1 == page.getNumber())?string('active', '')}">
-                            <a class="page-link" href="${url}?page=${p - 1}&size=${page.getSize()}">${p}</a>
+                        <li class="page-item ${(p == page.getNumber())?string('active', '')}">
+                            <a class="page-link" href="${url}?page=${p}">${p}</a>
                         </li>
                     </#if>
                 </#list>
             </ul>
         </div>
     </div>
+    </#if>
 
 </#macro>
