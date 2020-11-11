@@ -16,36 +16,29 @@ import java.util.*;
 @Entity
 @Data
 @NoArgsConstructor
-@RequiredArgsConstructor
 @Table(name = "usr")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NonNull
     @NotBlank(message = "Username can't be empty")
     private String username;
-    @NonNull
     @NotBlank(message = "Enter a password")
     private String password;
-    @NonNull
     @NotBlank(message = "Email is invalid")
     @Email(message = "Email is invalid")
     private String email;
 
-    @NonNull
     private boolean active;
 
     private String activationCode;
 
-    @NonNull
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @NonNull
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Message> messages;
 

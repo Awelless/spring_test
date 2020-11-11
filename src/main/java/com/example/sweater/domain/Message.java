@@ -12,22 +12,18 @@ import javax.validation.constraints.NotBlank;
 @Entity
 @Data
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NonNull
     @NotBlank(message = "Please, fill the message")
     @Length(max = 2048, message = "Message is too long")
     private String text;
-    @NonNull
     @NotBlank(message = "Please, fill the tag")
     @Length(max = 255, message = "Tag is too long")
     private String tag;
 
-    @NonNull
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User author;
