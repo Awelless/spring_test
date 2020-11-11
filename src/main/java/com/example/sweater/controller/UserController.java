@@ -34,7 +34,7 @@ public class UserController {
             @AuthenticationPrincipal User currentUser,
             @PathVariable User user,
             @RequestParam(required = false) Message message,
-            @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable,
+            @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC, value = 50) Pageable pageable,
             Model model
     ) {
 

@@ -3,12 +3,15 @@
 
 <#macro messageList>
 
-<@p.pager url page />
+<div class="mt-3">
+    <@p.pager url page />
+</div>
+
 <div class="card-columns" id="message-list">
 
     <#list page.content as message>
 
-        <div class="card my-3" data-id="${message.id}">
+        <div class="card mb-3" data-id="${message.id}">
             <#if message.filename??>
                 <img src="/img/${message.filename}" class="card-img-top" />
             </#if>
@@ -42,6 +45,7 @@
         No messages
     </#list>
 </div>
-<@p.pager url  page />
+
+<@p.pager url page />
 
 </#macro>

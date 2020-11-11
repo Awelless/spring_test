@@ -31,7 +31,7 @@ public class MessageListController {
     @GetMapping("/messages")
     public String getMessages(
             @RequestParam(required = false, defaultValue = "") String filter,
-            @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable,
+            @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC, value = 50) Pageable pageable,
             Model model
     ) {
 
@@ -77,7 +77,7 @@ public class MessageListController {
     @GetMapping("/news")
     public String getNews(
             @AuthenticationPrincipal User user,
-            @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable,
+            @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC, value = 50) Pageable pageable,
             Model model
     ) {
 
