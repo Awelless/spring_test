@@ -2,6 +2,7 @@ package com.example.sweater.controller;
 
 import com.example.sweater.domain.User;
 import com.example.sweater.domain.dto.CaptchaResponseDto;
+import com.example.sweater.exception.UserNotUniqueException;
 import com.example.sweater.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 import java.util.Collections;
 import java.util.Map;
 
@@ -57,13 +59,17 @@ public class RegistrationController {
             model.addAttribute("password2Error", "Confirm the password");
         }
 
-        Map<String, String> userOriginalityErrors =
-                StringUtils.isEmpty(user.getUsername()) ? null : userService.addUser(user);
-        if (userOriginalityErrors != null) {
-            model.mergeAttributes(userOriginalityErrors);
+        boolean isUnique = true;
+        try {
+            userService.addUser(user);
+        } catch (UserNotUniqueException e) {
+            model.mergeAttributes(e.getErrors());
+            isUnique = false;
+        } catch (Exception e) {
+
         }
 
-        if (isConfirmEmpty || !isPasswordsEqual || userOriginalityErrors != null || bindingResult.hasErrors()) {
+        if (isConfirmEmpty || !isPasswordsEqual || !isUnique || bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
             return "registration";

@@ -2,6 +2,7 @@ package com.example.sweater.service;
 
 import com.example.sweater.domain.Role;
 import com.example.sweater.domain.User;
+import com.example.sweater.exception.UserNotUniqueException;
 import com.example.sweater.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.validation.ValidationException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -35,9 +37,9 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public Map<String, String> addUser(User user) {
+    public boolean addUser(User user) throws UserNotUniqueException, Exception {
 
-        Map<String, String> errors = new TreeMap<String, String>();
+        Map<String, String> errors = new TreeMap<>();
 
         if (userRepo.findByEmail(user.getEmail()) != null) {
             errors.put("emailError", "Email is already taken");
@@ -47,7 +49,7 @@ public class UserService implements UserDetailsService {
         }
 
         if (errors.size() > 0) {
-            return errors;
+            throw new UserNotUniqueException(errors);
         }
 
         user.setActive(false);
@@ -55,11 +57,15 @@ public class UserService implements UserDetailsService {
         user.setActivationCode(UUID.randomUUID().toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        userRepo.save(user);
+        try {
+            userRepo.save(user);
+        } catch (Exception e) {
+            throw e;
+        }
 
         sendMessage(user);
 
-        return null;
+        return true;
     }
 
     private void sendMessage(User user) {

@@ -1,17 +1,18 @@
 package com.example.sweater.domain;
 
-import com.example.sweater.repos.MessageRepo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.util.*;
+import javax.validation.constraints.Size;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Data
@@ -23,8 +24,10 @@ public class User implements UserDetails {
     private Long id;
 
     @NotBlank(message = "Username can't be empty")
+    @Size(min = 3, max = 24, message = "Length of the username should be from 3 to 24")
     private String username;
     @NotBlank(message = "Enter a password")
+    @Size(min = 5, message = "Password should contain at least 5 characters")
     private String password;
     @NotBlank(message = "Email is invalid")
     @Email(message = "Email is invalid")

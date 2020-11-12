@@ -1,4 +1,5 @@
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\repos\UserRepo.java
+E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\exception\UserNotUniqueException.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\service\MessageService.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\config\WebSecurityConfig.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\controller\ControllerUtils.java

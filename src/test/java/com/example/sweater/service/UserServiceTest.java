@@ -2,10 +2,11 @@ package com.example.sweater.service;
 
 import com.example.sweater.domain.Role;
 import com.example.sweater.domain.User;
+import com.example.sweater.exception.UserNotUniqueException;
 import com.example.sweater.repos.UserRepo;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
@@ -16,11 +17,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Collections;
-import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class UserServiceTest {
+public class UserServiceTest {
     @Autowired
     private UserService userService;
 
@@ -34,14 +34,14 @@ class UserServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @Test
-    void addUser() {
+    public void addUser() {
         User user = new User();
 
         user.setEmail("some@gmail.com");
 
-        Map<String, String> errors = userService.addUser(user);
+        boolean isAdded = userService.addUser(user);
 
-        Assert.assertTrue(errors == null);
+        Assert.assertTrue(isAdded);
         Assert.assertNotNull(user.getActivationCode());
         Assert.assertTrue(CoreMatchers.is(user.getRoles()).matches(Collections.singleton(Role.USER)));
 
@@ -54,8 +54,8 @@ class UserServiceTest {
                 );
     }
 
-    @Test
-    void addUserFail() {
+    @Test(expected = UserNotUniqueException.class)
+    public void addUserFail() {
         User user = new User();
 
         user.setUsername("John");
@@ -64,21 +64,11 @@ class UserServiceTest {
                 .when(userRepo)
                 .findByUsername("John");
 
-        Map<String, String> errors = userService.addUser(user);
-
-        Assert.assertFalse(errors == null);
-
-        Mockito.verify(userRepo, Mockito.times(0)).save(ArgumentMatchers.any(User.class));
-        Mockito.verify(mailSender, Mockito.times(0))
-                .send(
-                        ArgumentMatchers.anyString(),
-                        ArgumentMatchers.anyString(),
-                        ArgumentMatchers.anyString()
-                );
+        boolean isAdded = userService.addUser(user);
     }
 
     @Test
-    void activateUser() {
+    public void activateUser() {
         User user = new User();
 
         user.setUsername("John");
@@ -97,7 +87,7 @@ class UserServiceTest {
     }
 
     @Test
-    void activateUSerFailTest() {
+    public void activateUSerFailTest() {
         String activatedUsername = userService.activateUser("activate me");
 
         System.out.println(activatedUsername);
