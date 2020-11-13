@@ -4,6 +4,7 @@ import com.example.sweater.domain.Role;
 import com.example.sweater.domain.User;
 import com.example.sweater.exception.UserNotUniqueException;
 import com.example.sweater.repos.UserRepo;
+import lombok.SneakyThrows;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
@@ -78,9 +79,9 @@ public class UserServiceTest {
                 .when(userRepo)
                 .findByActivationCode("activate");
 
-        String activatedUsername = userService.activateUser("activate");
+        User activatedUser = userService.activateUser("activate");
 
-        Assert.assertNotNull(activatedUsername);
+        Assert.assertNotNull(activatedUser);
         Assert.assertNull(user.getActivationCode());
 
         Mockito.verify(userRepo, Mockito.times(1)).save(user);
@@ -88,11 +89,9 @@ public class UserServiceTest {
 
     @Test
     public void activateUSerFailTest() {
-        String activatedUsername = userService.activateUser("activate me");
+        User activatedUser = userService.activateUser("activate me");
 
-        System.out.println(activatedUsername);
-
-        Assert.assertNull(activatedUsername);
+        Assert.assertNull(activatedUser);
 
         Mockito.verify(userRepo, Mockito.times(0)).save(ArgumentMatchers.any(User.class));
     }

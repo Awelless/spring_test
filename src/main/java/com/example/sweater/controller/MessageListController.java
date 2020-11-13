@@ -34,7 +34,6 @@ public class MessageListController {
             @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC, value = 50) Pageable pageable,
             Model model
     ) {
-
         Page<Message> page;
 
         if (filter != null && !filter.isEmpty()) {
@@ -55,6 +54,7 @@ public class MessageListController {
             @AuthenticationPrincipal User user,
             @Valid Message message,
             BindingResult bindingResult,
+            @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC, value = 50) Pageable pageable,
             Model model,
             @RequestParam("file") MultipartFile file
     ) throws IOException {
@@ -65,6 +65,7 @@ public class MessageListController {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
             model.addAttribute("message", message);
+            model.addAttribute("page", messageService.findAll(pageable));
             return "messages";
         }
 

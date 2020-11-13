@@ -12,11 +12,13 @@ public class LoginController {
 
     @GetMapping
     public String getLoginPage(
-            @RequestParam(required = false) String error,
+            @RequestParam(required = false) String errorMessage,
             Model model
     ) {
-        if (error != null) {
-            model.addAttribute("loginError", true);
+        System.out.println(errorMessage != null);
+
+        if (errorMessage != null) {
+            model.addAttribute("loginError", errorMessage);
         }
 
         return "login";

@@ -37,7 +37,7 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public boolean addUser(User user) throws UserNotUniqueException, Exception {
+    public boolean addUser(User user) throws UserNotUniqueException {
 
         Map<String, String> errors = new TreeMap<>();
 
@@ -57,11 +57,7 @@ public class UserService implements UserDetailsService {
         user.setActivationCode(UUID.randomUUID().toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        try {
-            userRepo.save(user);
-        } catch (Exception e) {
-            throw e;
-        }
+        userRepo.save(user);
 
         sendMessage(user);
 
@@ -80,7 +76,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public String activateUser(String code) {
+    public User activateUser(String code) {
         User user = userRepo.findByActivationCode(code);
 
         if (user == null) {
@@ -91,7 +87,7 @@ public class UserService implements UserDetailsService {
         user.setActive(true);
         userRepo.save(user);
 
-        return user.getUsername();
+        return user;
     }
 
     public List<User> findAll() {

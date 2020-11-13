@@ -7,20 +7,15 @@
         <h4>Sign In</h4>
     </div>
 
-    <#if activationSuccess??>
-        <div class="alert alert-success">
-            ${activationSuccess}
-        </div>
-    </#if>
-    <#if activationError??>
-        <div class="alert alert-danger">
-            ${activationError}
+    <#if alert??>
+        <div class="alert alert-${alertType}">
+            ${alert}
         </div>
     </#if>
 
-    <#if loginError?? && Session?? && Session.SPRING_SECURITY_LAST_EXCEPTION??>
+    <#if loginError??>
         <div class="alert alert-danger" role="alert">
-            ${Session.SPRING_SECURITY_LAST_EXCEPTION.message}
+            ${loginError}
         </div>
     </#if>
 

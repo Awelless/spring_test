@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
-import javax.validation.ValidationException;
 import java.util.Collections;
 import java.util.Map;
 
@@ -60,17 +59,21 @@ public class RegistrationController {
         }
 
         boolean isUnique = true;
-        try {
-            userService.addUser(user);
-        } catch (UserNotUniqueException e) {
-            model.mergeAttributes(e.getErrors());
-            isUnique = false;
-        } catch (Exception e) {
-
+        if (!ControllerUtils.getErrors(bindingResult).containsKey("usernameError") &&
+                !ControllerUtils.getErrors(bindingResult).containsKey("emailError")) {
+            try {
+                userService.addUser(user);
+            } catch (UserNotUniqueException e) {
+                isUnique = false;
+                model.mergeAttributes(e.getErrors());
+            }
         }
 
         if (isConfirmEmpty || !isPasswordsEqual || !isUnique || bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+            for (String key : errors.keySet()) {
+                System.out.println(key + " " + errors.get(key));
+            }
             model.mergeAttributes(errors);
             return "registration";
         }
@@ -82,6 +85,9 @@ public class RegistrationController {
             return "registration";
         }
 
+        model.addAttribute("alert", "Activation code is sent to your e-mail");
+        model.addAttribute("alertType", "primary");
+
         return "login";
     }
 
@@ -90,12 +96,14 @@ public class RegistrationController {
             @PathVariable String code,
             Model model) {
 
-        String username = userService.activateUser(code);
+        User user = userService.activateUser(code);
 
-        if (username != null) {
-            model.addAttribute("activationSuccess", "User " + username + " is activated");
+        if (user != null) {
+            model.addAttribute("alert", "User " + user.getUsername() + " is activated");
+            model.addAttribute("alertType", "success");
         } else {
-            model.addAttribute("activationError", "Activation code is not found");
+            model.addAttribute("alert", "Activation code is not found");
+            model.addAttribute("alertType", "danger");
         }
 
         return "login";

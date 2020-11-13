@@ -23,10 +23,8 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank(message = "Username can't be empty")
     @Size(min = 3, max = 24, message = "Length of the username should be from 3 to 24")
     private String username;
-    @NotBlank(message = "Enter a password")
     @Size(min = 5, message = "Password should contain at least 5 characters")
     private String password;
     @NotBlank(message = "Email is invalid")
