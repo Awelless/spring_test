@@ -19,12 +19,15 @@
                 <a class="nav-link" href="/messages">All Messages</a>
             </li>
             <li class="nav-item active">
+                <a class="nav-link" href="/search">Search</a>
+            </li>
+            <li class="nav-item active">
                 <a class="nav-link" href="/user/${currentUserId}">My profile</a>
             </li>
             </#if>
             <#if isAdmin>
             <li class="nav-item active">
-                <a class="nav-link" href="/userlist">User List</a>
+                <a class="nav-link" href="/adminpanel">Admin Panel</a>
             </li>
             </#if>
         </ul>

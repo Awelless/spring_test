@@ -1,64 +1,29 @@
 <#import "parts/common.ftlh" as c>
-<#include "parts/security.ftlh">
 
-<@c.page "Users" false>
+<@c.page "Search results for ${pattern}" false>
 
     <div class="text-center">
-        <h4>List of Users</h4>
+        <h4>Search</h4>
     </div>
 
-    <table class="table table-sm table-hover table-fixed">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
+    <div class="my-3">
+        <form class="form-inline" method="get" action="/search">
+            <div class="form-group">
+                <input type="text" class="form-control"
+                       value="${pattern}" name="pattern" placeholder="Search" />
+            </div>
+            <button type="submit" class="btn btn-primary ml-2">Search</button>
+        </form>
+    </div>
 
-        <tbody>
-
+    <ul class="list-group">
         <#list users as user>
-
-        <#if user.id == currentUserId>
-            <#assign
-                trType = "primary"
-            >
+        <li class="list-group-item">
+            <a href="/user/${user.id}">${user.username}</a>
+        </li>
         <#else>
-            <#assign
-                trType = "default"
-            >
-        </#if>
-
-        <tr scope="row" class="table-${trType}">
-            <td>${user.username}</td>
-            <td>${user.email}</td>
-            <td>
-                <#list user.roles as role>
-                ${role}<#sep>,
-            </#list>
-            </td>
-            <td>
-                <#if !user.roles?seq_contains('ADMIN') || user.id == currentUserId>
-                <div class="btn btn-light btn-sm">
-                    <a href="/userlist/${user.id}">Edit</a>
-                </div>
-                </#if>
-            </td>
-            <td>
-                <#if !user.roles?seq_contains('ADMIN')>
-                <form method="post" action="/userlist/delete">
-                    <input type="hidden" name="_csrf" value="${_csrf.token}" />
-                    <input type="hidden" name="userId" value="${user.id}" />
-                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                </form>
-                </#if>
-            </td>
-        </tr>
+        No users
         </#list>
-        </tbody>
-    </table>
+    </ul>
 
 </@c.page>

@@ -162,4 +162,20 @@ public class UserService implements UserDetailsService {
         user.getSubscribers().remove(currentUser);
         userRepo.save(user);
     }
+
+    public List<User> findByPattern(String pattern) {
+        List<User> suitableUsers = userRepo.findAll()
+                .stream()
+                .filter(user -> user.getUsername().contains(pattern))
+                .collect(Collectors.toList());
+
+        suitableUsers.sort(new Comparator<User>() {
+            @Override
+            public int compare(User a, User b) {
+                return b.getSubscribers().size() - a.getSubscribers().size();
+            }
+        });
+
+        return suitableUsers;
+    }
 }
