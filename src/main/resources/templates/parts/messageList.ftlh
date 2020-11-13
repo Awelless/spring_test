@@ -21,13 +21,27 @@
             </div>
             <div class="card-footer text-muted">
                 <div class="row">
-                    <div class="col">
+                    <div class="col align-self-center">
+                        <a href="/messages/${message.id}/like">
+                            <#if message.meLiked>
+                                <i class="fas fa-heart"></i>
+                            <#else>
+                                <i class="far fa-heart"></i>
+                            </#if>
+                        ${message.likes}
+                        </a>
+                    </div>
+                    <div class="col align-self-center">
                         <a href="/user/${message.author.id}">${message.authorName}</a>
                     </div>
                     <#if message.author.id == currentUserId || isAdmin>
                     <div class="col">
                         <div class="row float-right">
-                            <a href="/user/${message.author.id}?message=${message.id}"><i>Edit</i></a>
+                            <div class="btn btn-sm btn-light">
+                                <a href="/user/${message.author.id}?message=${message.id}">
+                                    <i>Edit</i>
+                                </a>
+                            </div>
                             <div class="ml-2 mr-1">
                                 <form method="post" action="/user/${message.author.id}/${message.id}/delete">
                                     <input type="hidden" name="_csrf" value="${_csrf.token}" />

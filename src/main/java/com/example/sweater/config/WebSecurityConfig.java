@@ -47,8 +47,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     AuthenticationException e)
             throws IOException, ServletException {
 
-                System.out.println(e.getClass());
-
                 String message = "";
 
                 if(e.getClass() == BadCredentialsException.class) {

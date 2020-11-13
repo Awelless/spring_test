@@ -2,6 +2,7 @@ package com.example.sweater.service;
 
 import com.example.sweater.domain.Message;
 import com.example.sweater.domain.User;
+import com.example.sweater.domain.dto.MessageDto;
 import com.example.sweater.repos.MessageRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,13 +10,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class MessageService {
@@ -45,21 +45,24 @@ public class MessageService {
         message.setFilename(resultFilename);
     }
 
-    public Page<Message> findAll(Pageable pageable) {
-        return messageRepo.findAll(pageable);
+    public Page<MessageDto> findAll(User user, Pageable pageable) {
+        return messageRepo.findAll(user, pageable);
     }
 
     public void saveMessage(Message message) {
         messageRepo.save(message);
     }
 
-    public Page<Message> findByTag(String tag, Pageable pageable) {
-        return messageRepo.findByTag(tag, pageable);
+    public Page<MessageDto> findByTag(String filter, User user, Pageable pageable) {
+        if (StringUtils.isEmpty(filter)) {
+            return messageRepo.findAll(user, pageable);
+        }
+        return messageRepo.findByTag(filter, user, pageable);
     }
 
-    public Page<Message> findSubscriptionMessages(User user, Pageable pageable) {
+    public Page<MessageDto> findSubscriptionMessages(User user, Pageable pageable) {
 
-        Page<Message> messages = new PageImpl<Message>(messageRepo.findAll(pageable)
+        Page<MessageDto> messages = new PageImpl<MessageDto>(messageRepo.findAll(user, pageable)
                 .filter(message -> message.getAuthor().getSubscribers().contains(user))
                 .toList());
 
@@ -68,5 +71,9 @@ public class MessageService {
 
     public void deleteMessage(Message message) {
         messageRepo.delete(message);
+    }
+
+    public Page<MessageDto> findByUser(User author, User user, Pageable pageable) {
+        return messageRepo.findByUser(author, user, pageable);
     }
 }

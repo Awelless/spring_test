@@ -15,8 +15,6 @@ public class LoginController {
             @RequestParam(required = false) String errorMessage,
             Model model
     ) {
-        System.out.println(errorMessage != null);
-
         if (errorMessage != null) {
             model.addAttribute("loginError", errorMessage);
         }

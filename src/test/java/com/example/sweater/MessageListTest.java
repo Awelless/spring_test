@@ -1,6 +1,6 @@
 package com.example.sweater;
 
-import com.example.sweater.controller.MessageListController;
+import com.example.sweater.controller.MessageController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class MessageListTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private MessageListController controller;
+    private MessageController controller;
 
     @Test
     public void mainPageTest() throws Exception {

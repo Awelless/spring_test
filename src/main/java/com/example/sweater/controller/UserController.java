@@ -3,11 +3,11 @@ package com.example.sweater.controller;
 import com.example.sweater.domain.Message;
 import com.example.sweater.domain.Role;
 import com.example.sweater.domain.User;
+import com.example.sweater.domain.dto.MessageDto;
 import com.example.sweater.service.MessageService;
 import com.example.sweater.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
@@ -38,7 +37,7 @@ public class UserController {
             Model model
     ) {
 
-        Page<Message> page = new PageImpl<Message>(user.getMessages().stream().collect(Collectors.toList()));
+        Page<MessageDto> page = messageService.findByUser(currentUser, user, pageable);
 
         model.addAttribute("page", page);
         model.addAttribute("url", "/" + user.getId());

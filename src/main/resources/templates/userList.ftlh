@@ -1,6 +1,6 @@
 <#import "parts/common.ftlh" as c>
 
-<@c.page "Search results for ${pattern}" false>
+<@c.page "Search ${pattern}" false>
 
     <div class="text-center">
         <h4>Search</h4>
