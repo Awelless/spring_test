@@ -14,6 +14,7 @@ E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\repos\Mess
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\Application.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\controller\SettingsController.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\domain\Role.java
+E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\util\RedirectInterceptor.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\domain\dto\MessageDto.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\controller\SearchController.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\controller\AdminPanelController.java

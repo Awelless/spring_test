@@ -16,5 +16,6 @@ com\example\sweater\exception\UserNotUniqueException.class
 com\example\sweater\service\MessageService$1.class
 com\example\sweater\domain\util\MessageHelper.class
 com\example\sweater\service\MessageService.class
+com\example\sweater\util\RedirectInterceptor.class
 com\example\sweater\config\MailConfig.class
 com\example\sweater\controller\SearchController.class
