@@ -15,7 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class MessageService {
@@ -57,12 +59,22 @@ public class MessageService {
         if (StringUtils.isEmpty(filter)) {
             return messageRepo.findAll(user, pageable);
         }
-        return messageRepo.findByTag(filter, user, pageable);
+
+        Page<MessageDto> messages = new PageImpl<>(messageRepo.findByTag(filter, user, pageable).stream()
+            .sorted(new Comparator<MessageDto>() {
+                @Override
+                public int compare(MessageDto a, MessageDto b) {
+                    return (int) (b.getLikes() - a.getLikes());
+                }
+            })
+            .collect(Collectors.toList()));
+
+        return messages;
     }
 
     public Page<MessageDto> findSubscriptionMessages(User user, Pageable pageable) {
 
-        Page<MessageDto> messages = new PageImpl<MessageDto>(messageRepo.findAll(user, pageable)
+        Page<MessageDto> messages = new PageImpl<>(messageRepo.findAll(user, pageable)
                 .filter(message -> message.getAuthor().getSubscribers().contains(user))
                 .toList());
 
@@ -76,4 +88,19 @@ public class MessageService {
     public Page<MessageDto> findByUser(User author, User user, Pageable pageable) {
         return messageRepo.findByUser(author, user, pageable);
     }
+
+    public Page<MessageDto> findByPattern(String pattern, User user, Pageable pageable) {
+        Page<MessageDto> messages = new PageImpl<>(messageRepo.findAll(user, pageable).stream()
+                .filter(message -> message.getText().contains(pattern))
+                .sorted(new Comparator<MessageDto>() {
+                    @Override
+                    public int compare(MessageDto a, MessageDto b) {
+                        return (int) (b.getLikes() - a.getLikes());
+                    }
+                })
+                .collect(Collectors.toList()));
+
+        return  messages;
+    }
+
 }

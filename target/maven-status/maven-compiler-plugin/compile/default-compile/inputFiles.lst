@@ -15,10 +15,10 @@ E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\Applicatio
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\controller\SettingsController.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\domain\Role.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\domain\dto\MessageDto.java
+E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\controller\SearchController.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\controller\AdminPanelController.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\controller\ControllerUtils.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\controller\MessageController.java
-E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\controller\UserSearchController.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\service\MailSender.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\domain\util\MessageHelper.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\controller\UserController.java

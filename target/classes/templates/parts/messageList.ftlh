@@ -21,7 +21,7 @@
             </div>
             <div class="card-footer text-muted">
                 <div class="row">
-                    <div class="col align-self-center">
+                    <div class="col-sm-3 align-self-center">
                         <a href="/messages/${message.id}/like">
                             <#if message.meLiked>
                                 <i class="fas fa-heart"></i>
