@@ -43,13 +43,13 @@
             <td>
                 <#if !user.roles?seq_contains('ADMIN') || user.id == currentUserId>
                 <div class="btn btn-light btn-sm">
-                    <a href="/userlist/${user.id}">Edit</a>
+                    <a href="/adminpanel/${user.id}">Edit</a>
                 </div>
                 </#if>
             </td>
             <td>
                 <#if !user.roles?seq_contains('ADMIN')>
-                <form method="post" action="/userlist/delete">
+                <form method="post" action="/adminpanel/delete">
                     <input type="hidden" name="_csrf" value="${_csrf.token}" />
                     <input type="hidden" name="userId" value="${user.id}" />
                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>

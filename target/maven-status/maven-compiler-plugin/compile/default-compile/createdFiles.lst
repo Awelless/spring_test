@@ -1,6 +1,5 @@
 com\example\sweater\controller\ControllerUtils.class
 com\example\sweater\controller\MessageController.class
-com\example\sweater\config\WebSecurityConfig$1.class
 com\example\sweater\controller\SettingsController.class
 com\example\sweater\controller\LoginController.class
 com\example\sweater\domain\dto\CaptchaResponseDto.class

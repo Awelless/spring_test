@@ -1,5 +1,7 @@
 package com.example.sweater.controller;
 
+import com.example.sweater.domain.User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,11 +14,16 @@ public class LoginController {
 
     @GetMapping
     public String getLoginPage(
-            @RequestParam(required = false) String errorMessage,
+            @AuthenticationPrincipal User currentUser,
+            @RequestParam(required = false, defaultValue = "false") Boolean error,
             Model model
     ) {
-        if (errorMessage != null) {
-            model.addAttribute("loginError", errorMessage);
+        if (currentUser != null) {
+            return "redirect:/";
+        }
+
+        if (error) {
+            model.addAttribute("loginError", true);
         }
 
         return "login";

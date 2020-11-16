@@ -13,12 +13,29 @@
         </div>
     </#if>
 
-    <#if loginError??>
+    <#if loginError?? && Session?? && Session.SPRING_SECURITY_LAST_EXCEPTION??>
+        <#assign
+            defMessage = Session.SPRING_SECURITY_LAST_EXCEPTION.message
+        >
+        <#if defMessage == 'Bad credentials'>
+            <#assign
+                message = 'Incorrect username or password'
+            >
+        <#elseif defMessage == 'User is disabled'>
+            <#assign
+                message = 'Account is not verified. Check your email'
+            >
+        <#else>
+            <#assign
+                message = 'Something went wrong. Try again'
+            >
+        </#if>
+
         <div class="alert alert-danger" role="alert">
-            ${loginError}
+            ${message}
         </div>
     </#if>
 
-    <@l.login/>
+    <@l.login />
 
 </@c.page>

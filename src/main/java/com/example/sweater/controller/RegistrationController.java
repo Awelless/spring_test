@@ -6,6 +6,7 @@ import com.example.sweater.exception.UserNotUniqueException;
 import com.example.sweater.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -36,7 +37,13 @@ public class RegistrationController {
     private RestTemplate restTemplate;
 
     @GetMapping("/registration")
-    public String registration() {
+    public String registration(
+            @AuthenticationPrincipal User currentUser
+    ) {
+        if (currentUser != null) {
+            return "redirect:/";
+        }
+
         return "registration";
     }
 
@@ -81,7 +88,7 @@ public class RegistrationController {
         String url = String.format(CAPTCHA_URL, secret, captchaResponse);
         CaptchaResponseDto response = restTemplate.postForObject(url, Collections.emptyList(), CaptchaResponseDto.class);
         if (!response.isSuccess()) {
-            model.addAttribute("captchaError", "Some toubles with captcha. Try again");
+            model.addAttribute("captchaError", "Some troubles with captcha. Try again");
             return "registration";
         }
 
