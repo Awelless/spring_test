@@ -9,9 +9,9 @@
             <input type="text" class="form-control ${(emailError??)?string('is-invalid', '')}"
                    name="email" value="<#if user??>${user.email}</#if>" placeholder="email" />
             <#if emailError??>
-            <div class="invalid-feedback">
-                ${emailError}
-            </div>
+                <div class="invalid-feedback">
+                    ${emailError}
+                </div>
             </#if>
         </div>
     </div>
@@ -22,9 +22,9 @@
             <input type="text" class="form-control ${(usernameError??)?string('is-invalid', '')}"
                    name="username" value="<#if user??>${user.username}</#if>" placeholder="username" />
             <#if usernameError??>
-            <div class="invalid-feedback">
-                ${usernameError}
-            </div>
+                <div class="invalid-feedback">
+                    ${usernameError}
+                </div>
             </#if>
         </div>
     </div>
@@ -35,9 +35,9 @@
             <input type="password" class="form-control ${(passwordError??)?string('is-invalid', '')}"
                    name="password" placeholder="password" />
             <#if passwordError??>
-            <div class="invalid-feedback">
-                ${passwordError}
-            </div>
+                <div class="invalid-feedback">
+                    ${passwordError}
+                </div>
             </#if>
         </div>
     </div>
@@ -48,9 +48,9 @@
             <input type="password" class="form-control ${(password2Error??)?string('is-invalid', '')}"
                    name="password2" placeholder="re-enter the password" />
             <#if password2Error??>
-            <div class="invalid-feedback">
-                ${password2Error}
-            </div>
+                <div class="invalid-feedback">
+                    ${password2Error}
+                </div>
             </#if>
         </div>
     </div>

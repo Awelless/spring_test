@@ -8,9 +8,9 @@
     </div>
 
     <#if captchaError??>
-    <div class="alert alert-danger">
-        ${captchaError}
-    </div>
+        <div class="alert alert-danger">
+            ${captchaError}
+        </div>
     </#if>
 
     <@r.registration/>

@@ -10,7 +10,6 @@
 <div class="card-columns" id="message-list">
 
     <#list page.content as message>
-
         <div class="card mb-3" data-id="${message.id}">
             <#if message.filename??>
                 <img src="/img/${message.filename}" class="card-img-top" />
@@ -35,26 +34,25 @@
                         <a href="/user/${message.author.id}">${message.authorName}</a>
                     </div>
                     <#if message.author.id == currentUserId || isAdmin>
-                    <div class="col">
-                        <div class="row float-right">
-                            <div class="btn btn-sm btn-light">
-                                <a href="/user/${message.author.id}?message=${message.id}">
-                                    <i>Edit</i>
-                                </a>
-                            </div>
-                            <div class="ml-2 mr-1">
-                                <form method="post" action="/user/${message.author.id}/${message.id}/delete">
-                                    <input type="hidden" name="_csrf" value="${_csrf.token}" />
-                                    <button class="btn btn-sm btn-danger" type="submit">Delete</button>
-                                </form>
+                        <div class="col">
+                            <div class="row float-right">
+                                <div class="btn btn-sm btn-light">
+                                    <a href="/user/${message.author.id}?message=${message.id}">
+                                        <i>Edit</i>
+                                    </a>
+                                </div>
+                                <div class="ml-2 mr-1">
+                                    <form method="post" action="/user/${message.author.id}/${message.id}/delete">
+                                        <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                                        <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </#if>
                 </div>
             </div>
         </div>
-
     <#else>
         No messages
     </#list>

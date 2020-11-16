@@ -9,9 +9,9 @@
             <input type="text" class="form-control ${(usernameError??)?string('is-invalid', '')}"
                    name="username" value="<#if usernameLogin??>${usernameLogin}</#if>" placeholder="username"/>
             <#if usernameError??>
-            <div class="invalid-feedback">
-                ${usernameError}
-            </div>
+                <div class="invalid-feedback">
+                    ${usernameError}
+                </div>
             </#if>
         </div>
     </div>
@@ -22,9 +22,9 @@
             <input type="password" class="form-control ${(passwordError??)?string('is-invalid', '')}"
                    name="password" placeholder="password" />
             <#if passwordError??>
-            <div class="invalid-feedback">
-                ${passwordError}
-            </div>
+                <div class="invalid-feedback">
+                    ${passwordError}
+                </div>
             </#if>
         </div>
     </div>
@@ -36,11 +36,14 @@
         </div>
     </div>
 </form>
+
 </#macro>
 
 <#macro logout>
+
 <form method="post" action="/logout">
     <input type="hidden" name="_csrf" value="${_csrf.token}" />
     <button type="submit" class="btn btn-primary">Sign Out</button>
 </form>
+
 </#macro>

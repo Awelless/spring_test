@@ -12,11 +12,12 @@
 
 
 <#if !isEditBox>
-<div class="mt-3">
-    <a class="btn btn-primary" data-toggle="collapse" href="#messageBox" role="button" aria-expanded="false" aria-controls="collapseExample">
-        Add new message
-    </a>
-</div>
+    <div class="mt-3">
+        <a class="btn btn-primary" data-toggle="collapse" href="#messageBox"
+           role="button" aria-expanded="false" aria-controls="collapseExample">
+            Add new message
+        </a>
+    </div>
 </#if>
 
 <div class="collapse <#if message??>show</#if>" id="messageBox">
@@ -30,9 +31,9 @@
                 <input type="text" class="form-control ${(textError??)?string('is-invalid', '')}"
                        value="<#if message??>${message.text}</#if>" name="text" placeholder="message..." />
                 <#if textError??>
-                <div class="invalid-feedback">
-                    ${textError}
-                </div>
+                    <div class="invalid-feedback">
+                        ${textError}
+                    </div>
                 </#if>
             </div>
             <div class="row">
@@ -40,9 +41,9 @@
                     <input type="text" class="form-control ${(tagError??)?string('is-invalid', '')}"
                            value="<#if message??>${message.tag}</#if>" name="tag" placeholder="tag" />
                     <#if tagError??>
-                    <div class="invalid-feedback">
-                        ${tagError}
-                    </div>
+                        <div class="invalid-feedback">
+                            ${tagError}
+                        </div>
                     </#if>
                 </div>
                 <div class="form-group col-md-4">
@@ -62,9 +63,9 @@
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">${submitButtonValue}</button>
                 <#if isEditBox>
-                <div class="btn btn-light ml-2">
-                    <a href="/user/${message.author.id}">Back</a>
-                </div>
+                    <div class="btn btn-light ml-2">
+                        <a href="/user/${message.author.id}">Back</a>
+                    </div>
                 </#if>
             </div>
 

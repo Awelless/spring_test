@@ -26,11 +26,11 @@
         <h6>Roles</h6>
         <div class="mb-2 ml-4">
             <#list roles as role>
-            <div>
-                <input type="checkbox" class="form-check-input" id="checkbox${role}"
-                       name="${role}" ${user.roles?seq_contains(role)?string("checked", "")} />
-                <label class="form-check-label" for="checkbox${role}">${role}</label>
-            </div>
+                <div>
+                    <input type="checkbox" class="form-check-input" id="checkbox${role}"
+                           name="${role}" ${user.roles?seq_contains(role)?string("checked", "")} />
+                    <label class="form-check-label" for="checkbox${role}">${role}</label>
+                </div>
             </#list>
         </div>
 

@@ -21,26 +21,26 @@
     </#if>
 
     <#if totalPages gt 1>
-    <div class="row">
-        <div class="col">
-            <ul class="pagination">
-                <li class="page-item disabled">
-                    <span class="page-link">Pages</span>
-                </li>
-                <#list body as p>
-                    <#if p == -1>
-                        <li class="page-item disabled">
-                            <span class="page-link">...</span>
-                        </li>
-                    <#else>
-                        <li class="page-item ${(p == page.getNumber())?string('active', '')}">
-                            <a class="page-link" href="${url}?page=${p}">${p}</a>
-                        </li>
-                    </#if>
-                </#list>
-            </ul>
+        <div class="row">
+            <div class="col">
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <span class="page-link">Pages</span>
+                    </li>
+                    <#list body as p>
+                        <#if p == -1>
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        <#else>
+                            <li class="page-item ${(p == page.getNumber())?string('active', '')}">
+                                <a class="page-link" href="${url}?page=${p}">${p}</a>
+                            </li>
+                        </#if>
+                    </#list>
+                </ul>
+            </div>
         </div>
-    </div>
     </#if>
 
 </#macro>

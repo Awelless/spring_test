@@ -65,6 +65,36 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
+    public boolean updateUser(User user, String password, String email) {
+
+        String userEmail = user.getEmail();
+
+        boolean isUpdated = false;
+        boolean isEmailChanged = email != null && email != "" && !email.equals(userEmail);
+
+        if (isEmailChanged) {
+            user.setEmail(email);
+            isUpdated = true;
+
+            if (!StringUtils.isEmpty(email)) {
+                user.setActivationCode(UUID.randomUUID().toString());
+            }
+        }
+
+        if (!StringUtils.isEmpty(password)) {
+            user.setPassword(passwordEncoder.encode(password));
+            isUpdated = true;
+        }
+
+        userRepo.save(user);
+
+        if (isEmailChanged) {
+            sendMessage(user);
+        }
+
+        return isUpdated;
+    }
+
     private void sendMessage(User user) {
         if (!StringUtils.isEmpty(user.getEmail())) {
             String message = String.format(
@@ -118,36 +148,6 @@ public class UserService implements UserDetailsService {
         }
 
         userRepo.save(user);
-    }
-
-    public boolean updateProfile(User user, String password, String email) {
-
-        String userEmail = user.getEmail();
-
-        boolean isUpdated = false;
-        boolean isEmailChanged = email != null && email != "" && !email.equals(userEmail);
-
-        if (isEmailChanged) {
-            user.setEmail(email);
-            isUpdated = true;
-
-            if (!StringUtils.isEmpty(email)) {
-                user.setActivationCode(UUID.randomUUID().toString());
-            }
-        }
-
-        if (!StringUtils.isEmpty(password)) {
-            user.setPassword(passwordEncoder.encode(password));
-            isUpdated = true;
-        }
-
-        userRepo.save(user);
-
-        if (isEmailChanged) {
-            sendMessage(user);
-        }
-
-        return isUpdated;
     }
 
     public void deleteUser(User user) {

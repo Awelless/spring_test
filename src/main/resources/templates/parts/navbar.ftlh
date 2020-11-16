@@ -12,23 +12,23 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <#if currentUser??>
-            <li class="nav-item active">
-                <a class="nav-link" href="/news">News</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/messages">All Messages</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/search">Search</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/user/${currentUserId}">My profile</a>
-            </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/news">News</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/messages">All Messages</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/search">Search</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/user/${currentUserId}">My profile</a>
+                </li>
             </#if>
             <#if isAdmin>
-            <li class="nav-item active">
-                <a class="nav-link" href="/adminpanel">Admin Panel</a>
-            </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/adminpanel">Admin Panel</a>
+                </li>
             </#if>
         </ul>
 

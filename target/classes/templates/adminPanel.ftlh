@@ -19,45 +19,44 @@
         </thead>
 
         <tbody>
+            <#list users as user>
 
-        <#list users as user>
+                <#if user.id == currentUserId>
+                    <#assign
+                        trType = "primary"
+                    >
+                <#else>
+                    <#assign
+                        trType = "default"
+                    >
+                </#if>
 
-        <#if user.id == currentUserId>
-            <#assign
-                trType = "primary"
-            >
-        <#else>
-            <#assign
-                trType = "default"
-            >
-        </#if>
-
-        <tr scope="row" class="table-${trType}">
-            <td>${user.username}</td>
-            <td>${user.email}</td>
-            <td>
-                <#list user.roles as role>
-                ${role}<#sep>,
+                <tr scope="row" class="table-${trType}">
+                    <td>${user.username}</td>
+                    <td>${user.email}</td>
+                    <td>
+                        <#list user.roles as role>
+                            ${role}<#sep>,
+                        </#list>
+                    </td>
+                    <td>
+                        <#if !user.roles?seq_contains('ADMIN') || user.id == currentUserId>
+                            <div class="btn btn-light btn-sm">
+                                <a href="/adminpanel/${user.id}">Edit</a>
+                            </div>
+                        </#if>
+                    </td>
+                    <td>
+                        <#if !user.roles?seq_contains('ADMIN')>
+                            <form method="post" action="/adminpanel/delete">
+                                <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                                <input type="hidden" name="userId" value="${user.id}" />
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </#if>
+                    </td>
+                </tr>
             </#list>
-            </td>
-            <td>
-                <#if !user.roles?seq_contains('ADMIN') || user.id == currentUserId>
-                <div class="btn btn-light btn-sm">
-                    <a href="/adminpanel/${user.id}">Edit</a>
-                </div>
-                </#if>
-            </td>
-            <td>
-                <#if !user.roles?seq_contains('ADMIN')>
-                <form method="post" action="/adminpanel/delete">
-                    <input type="hidden" name="_csrf" value="${_csrf.token}" />
-                    <input type="hidden" name="userId" value="${user.id}" />
-                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                </form>
-                </#if>
-            </td>
-        </tr>
-        </#list>
         </tbody>
     </table>
 
