@@ -60,12 +60,12 @@ public class UserService implements UserDetailsService {
 
         userRepo.save(user);
 
-        sendMessage(user);
+        sendActivationMessage(user);
 
         return true;
     }
 
-    public boolean updateUser(User user, String password, String email) {
+    public boolean updateUser(User user, String password, String email) throws UserNotUniqueException {
 
         String userEmail = user.getEmail();
 
@@ -73,7 +73,12 @@ public class UserService implements UserDetailsService {
         boolean isEmailChanged = email != null && email != "" && !email.equals(userEmail);
 
         if (isEmailChanged) {
-            user.setEmail(email);
+
+            if (userRepo.findByEmail(email) != null) {
+                throw new UserNotUniqueException("emailError", "Email is already taken");
+            }
+
+            user.setNewEmail(email);
             isUpdated = true;
 
             if (!StringUtils.isEmpty(email)) {
@@ -83,19 +88,34 @@ public class UserService implements UserDetailsService {
 
         if (!StringUtils.isEmpty(password)) {
             user.setPassword(passwordEncoder.encode(password));
+
+            System.out.println(password);
+
             isUpdated = true;
         }
 
         userRepo.save(user);
 
         if (isEmailChanged) {
-            sendMessage(user);
+            sendUpdateEmailMessage(user);
         }
 
         return isUpdated;
     }
 
-    private void sendMessage(User user) {
+    private void sendUpdateEmailMessage(User user) {
+        if (!StringUtils.isEmpty(user.getNewEmail())) {
+            String message = String.format(
+                    "Hello, %s! \n" +
+                            "To update your e-mail address, visit next link: http://localhost:8080/settings/update/%s",
+                    user.getUsername(), user.getActivationCode()
+            );
+
+            mailSender.send(user.getNewEmail(), "Account update", message);
+        }
+    }
+
+    private void sendActivationMessage(User user) {
         if (!StringUtils.isEmpty(user.getEmail())) {
             String message = String.format(
                     "Hello, %s! \n" +
@@ -116,6 +136,21 @@ public class UserService implements UserDetailsService {
 
         user.setActivationCode(null);
         user.setActive(true);
+        userRepo.save(user);
+
+        return user;
+    }
+
+    public User updateEmail(String code) {
+        User user = userRepo.findByActivationCode(code);
+
+        if (user == null) {
+            return null;
+        }
+
+        user.setActivationCode(null);
+        user.setEmail(user.getNewEmail());
+        user.setNewEmail(null);
         userRepo.save(user);
 
         return user;
@@ -178,5 +213,9 @@ public class UserService implements UserDetailsService {
         });
 
         return suitableUsers;
+    }
+
+    public User getUserByUsername(String username) {
+        return userRepo.findByUsername(username);
     }
 }

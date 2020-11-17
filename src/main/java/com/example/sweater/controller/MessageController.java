@@ -31,12 +31,12 @@ public class MessageController {
 
     @GetMapping("/messages")
     public String getMessages(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal User currentUser,
             @RequestParam(required = false, defaultValue = "") String filter,
             @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC, value = 50) Pageable pageable,
             Model model
     ) {
-        Page<MessageDto> page = messageService.findByTag(filter, user, pageable);
+        Page<MessageDto> page = messageService.findByTag(filter, currentUser, pageable);
 
         model.addAttribute("page", page);
         model.addAttribute("url", "/messages");
@@ -47,7 +47,7 @@ public class MessageController {
 
     @PostMapping("/messages")
     public String addMessage(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal User currentUser,
             @Valid Message message,
             BindingResult bindingResult,
             @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC, value = 50) Pageable pageable,
@@ -55,13 +55,13 @@ public class MessageController {
             @RequestParam("file") MultipartFile file
     ) throws IOException {
 
-        message.setAuthor(user);
+        message.setAuthor(currentUser);
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
             model.addAttribute("message", message);
-            model.addAttribute("page", messageService.findAll(user, pageable));
+            model.addAttribute("page", messageService.findAll(currentUser, pageable));
             return "messages";
         }
 
@@ -73,12 +73,12 @@ public class MessageController {
 
     @GetMapping("/news")
     public String getNews(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal User currentUser,
             @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC, value = 50) Pageable pageable,
             Model model
     ) {
 
-        Page<MessageDto> page = messageService.findSubscriptionMessages(user, pageable);
+        Page<MessageDto> page = messageService.findSubscriptionMessages(currentUser, pageable);
 
         model.addAttribute("page", page);
         model.addAttribute("url", "/news");

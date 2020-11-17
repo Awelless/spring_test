@@ -10,4 +10,8 @@ import java.util.TreeMap;
 @AllArgsConstructor
 public class UserNotUniqueException extends RuntimeException {
     private Map<String, String> errors = new TreeMap<>();
+
+    public UserNotUniqueException (String type, String message) {
+        this.errors.put(type, message);
+    }
 }

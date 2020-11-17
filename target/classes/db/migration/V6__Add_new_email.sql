@@ -1,0 +1,1 @@
+alter table usr add new_email varchar (255);

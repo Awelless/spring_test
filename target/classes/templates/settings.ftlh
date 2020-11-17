@@ -6,19 +6,21 @@
         <h4>My Settings</h4>
     </div>
 
-    <#if emailMessage?? && emailMessageType??>
-        <div class="alert ${emailMessageType} mb-3">
-            ${emailMessage}
+    <#if emailAlert?? && emailAlertType??>
+        <div class="alert alert-${emailAlertType} mb-3">
+            ${emailAlert}
         </div>
     </#if>
 
-    <#if passwordMessage?? && passwordMessageType??>
-        <div class="alert ${passwordMessageType} mb-3">
-            ${passwordMessage}
+    <#if passwordAlert?? && passwordAlertType??>
+        <div class="alert alert-${passwordAlertType} mb-3">
+            ${passwordAlert}
         </div>
     </#if>
 
     <form method="post" action="/settings">
+        <input type="hidden" name="_csrf" value="${_csrf.token}" />
+
         <h6>Current password:</h6>
         <div class="form-group row">
             <div class="col-sm-3">
@@ -70,7 +72,6 @@
                 </#if>
             </div>
         </div>
-        <input type="hidden" name="_csrf" value="${_csrf.token}" />
         <div class="row">
             <button type="submit" class="btn btn-primary ml-3">Save</button>
         </div>

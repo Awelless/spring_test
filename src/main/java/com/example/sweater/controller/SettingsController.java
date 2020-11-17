@@ -1,17 +1,19 @@
 package com.example.sweater.controller;
 
 import com.example.sweater.domain.User;
+import com.example.sweater.exception.UserNotUniqueException;
 import com.example.sweater.service.UserService;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,9 +30,11 @@ public class SettingsController {
 
     @GetMapping
     public String getProfile(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal User currentUser,
             Model model
     ) {
+        User user = userService.getUserByUsername(currentUser.getUsername());
+
         model.addAttribute("user", user);
 
         return "settings";
@@ -45,7 +49,9 @@ public class SettingsController {
             @RequestParam String passwordConfirm,
             Model model
     ) {
-        model.addAttribute("user", currentUser);
+        User user = userService.getUserByUsername(currentUser.getUsername());
+
+        model.addAttribute("user", user);
 
         Map<String, String> errors = new HashMap<>();
 
@@ -53,8 +59,12 @@ public class SettingsController {
             errors.put("emailError", "Email is invalid");
         }
 
-        if (!passwordEncoder.matches(password, currentUser.getPassword())) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             errors.put("passwordError", "Wrong password");
+        }
+
+        if (!StringUtils.isEmpty(newPassword) && newPassword.length() < 5) {
+            errors.put("newPasswordError", "Password should contain at least 5 characters");
         }
 
         if (!newPassword.equals(passwordConfirm)) {
@@ -66,15 +76,63 @@ public class SettingsController {
             return "settings";
         }
 
-        String oldEmail = currentUser.getEmail();
-        String oldPassword = currentUser.getPassword();
+        boolean isUnique = true;
+        boolean isUpdated = false;
+        try {
+            isUpdated = userService.updateUser(user, newPassword, email);
+        } catch (UserNotUniqueException e) {
+            isUnique = false;
+            model.mergeAttributes(e.getErrors());
+        }
 
-        boolean isUpdated = userService.updateUser(currentUser, password, email);
+        if (!isUnique) {
+            return "settings";
+        }
 
         if (!isUpdated) {
             return "redirect:/settings";
         }
 
+        updatePrincipal(user);
+
+        if (!StringUtils.isEmpty(user.getNewEmail()) ||
+                (!StringUtils.isEmpty(email) && email.equals(user.getNewEmail()))) {
+            model.addAttribute("emailAlert", "Activation code is sent to your new e-mail");
+            model.addAttribute("emailAlertType", "primary");
+        }
+
+        if (passwordEncoder.matches(newPassword, user.getPassword())) {
+            model.addAttribute("passwordAlert", "Password is updated");
+            model.addAttribute("passwordAlertType", "success");
+        }
+
         return "settings";
+    }
+
+    @GetMapping("update/{code}")
+    public String updateEmail(
+            @AuthenticationPrincipal User currentUser,
+            @PathVariable String code,
+            Model model)
+    {
+        User user = userService.updateEmail(code);
+
+        if (user != null && currentUser.equals(user)) {
+            updatePrincipal(user);
+            model.addAttribute("emailAlert", "Email is updated");
+            model.addAttribute("emailAlertType", "success");
+        } else {
+            model.addAttribute("emailAlert", "Activation code is not found");
+            model.addAttribute("emailAlertType", "danger");
+        }
+
+        model.addAttribute("user", user);
+
+        return "settings";
+    }
+
+    private void updatePrincipal(User user) {
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(), user.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

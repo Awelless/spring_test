@@ -31,6 +31,8 @@ public class User implements UserDetails {
     @NotBlank(message = "Email is invalid")
     @Email(message = "Email is invalid")
     private String email;
+    @Email(message = "Email is invalid")
+    private String newEmail;
 
     private boolean active;
 

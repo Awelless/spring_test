@@ -78,9 +78,6 @@ public class RegistrationController {
 
         if (isConfirmEmpty || !isPasswordsEqual || !isUnique || bindingResult.hasErrors()) {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-            for (String key : errors.keySet()) {
-                System.out.println(key + " " + errors.get(key));
-            }
             model.mergeAttributes(errors);
             return "registration";
         }
@@ -101,8 +98,8 @@ public class RegistrationController {
     @GetMapping("activate/{code}")
     public String activate(
             @PathVariable String code,
-            Model model) {
-
+            Model model)
+    {
         User user = userService.activateUser(code);
 
         if (user != null) {
