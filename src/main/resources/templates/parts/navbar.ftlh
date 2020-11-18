@@ -27,7 +27,7 @@
             </#if>
             <#if isAdmin>
                 <li class="nav-item active">
-                    <a class="nav-link" href="/adminpanel">Admin Panel</a>
+                    <a class="nav-link" href="/admin_panel">Admin Panel</a>
                 </li>
             </#if>
         </ul>

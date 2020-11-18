@@ -7,6 +7,12 @@
         <h4>List of Users</h4>
     </div>
 
+    <#if alert??>
+        <div class="alert alert-success">
+            ${alert}
+        </div>
+    </#if>
+
     <table class="table table-sm table-hover table-fixed">
         <thead>
             <tr>
@@ -42,13 +48,13 @@
                     <td>
                         <#if !user.roles?seq_contains('ADMIN') || user.id == currentUserId>
                             <div class="btn btn-light btn-sm">
-                                <a href="/adminpanel/${user.id}">Edit</a>
+                                <a href="/admin_panel/${user.id}">Edit</a>
                             </div>
                         </#if>
                     </td>
                     <td>
                         <#if !user.roles?seq_contains('ADMIN')>
-                            <form method="post" action="/adminpanel/delete">
+                            <form method="post" action="/admin_panel/delete">
                                 <input type="hidden" name="_csrf" value="${_csrf.token}" />
                                 <input type="hidden" name="userId" value="${user.id}" />
                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>

@@ -3,15 +3,11 @@
 
 <@c.page "Sign Up" true>
 
-    <div class="mb-3">
+    <div class="mb-3 text-center">
         <h4>Sign Up</h4>
     </div>
 
-    <#if captchaError??>
-        <div class="alert alert-danger">
-            ${captchaError}
-        </div>
-    </#if>
+
 
     <@r.registration/>
 

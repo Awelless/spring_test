@@ -167,21 +167,8 @@ public class UserService implements UserDetailsService {
         return userList;
     }
 
-    public void saveUser(User user, String username, Map<String, String> form) {
+    public void saveUser(User user, String username) {
         user.setUsername(username);
-
-        Set<String> roles = Arrays.stream(Role.values())
-                .map(Role::name)
-                .collect(Collectors.toSet());
-
-        user.getRoles().clear();
-
-        for (String key : form.keySet()) {
-            if (roles.contains(key)) {
-                user.getRoles().add(Role.valueOf(key));
-            }
-        }
-
         userRepo.save(user);
     }
 
@@ -215,7 +202,11 @@ public class UserService implements UserDetailsService {
         return suitableUsers;
     }
 
-    public User getUserByUsername(String username) {
+    public User findByUsername(String username) {
         return userRepo.findByUsername(username);
+    }
+
+    public User findByEmail(String email) {
+        return userRepo.findByEmail(email);
     }
 }

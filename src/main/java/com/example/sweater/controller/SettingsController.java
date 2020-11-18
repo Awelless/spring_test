@@ -33,7 +33,7 @@ public class SettingsController {
             @AuthenticationPrincipal User currentUser,
             Model model
     ) {
-        User user = userService.getUserByUsername(currentUser.getUsername());
+        User user = userService.findByUsername(currentUser.getUsername());
 
         model.addAttribute("user", user);
 
@@ -49,7 +49,7 @@ public class SettingsController {
             @RequestParam String passwordConfirm,
             Model model
     ) {
-        User user = userService.getUserByUsername(currentUser.getUsername());
+        User user = userService.findByUsername(currentUser.getUsername());
 
         model.addAttribute("user", user);
 

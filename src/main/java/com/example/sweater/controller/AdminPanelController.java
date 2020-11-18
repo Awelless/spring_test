@@ -1,6 +1,5 @@
 package com.example.sweater.controller;
 
-import com.example.sweater.domain.Role;
 import com.example.sweater.domain.User;
 import com.example.sweater.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @Controller
 @PreAuthorize("hasAuthority('ADMIN')")
-@RequestMapping("/adminpanel")
+@RequestMapping("/admin_panel")
 public class AdminPanelController {
     @Autowired
     private UserService userService;
@@ -30,26 +27,34 @@ public class AdminPanelController {
             Model model
     ) {
         model.addAttribute("user", user);
-        model.addAttribute("roles", Role.values());
+
         return "userEdit";
     }
 
     @PostMapping
     public String userSave(
             @RequestParam String username,
-            @RequestParam Map<String, String> form,
-            @RequestParam("userId") User user
+            @RequestParam("userId") User user,
+            Model model
     ) {
-        userService.saveUser(user, username, form);
+        userService.saveUser(user, username);
 
-        return "redirect:/adminpanel";
+        model.addAttribute("users", userService.findAll());
+        model.addAttribute("alert", "User " + username + " is updated");
+
+        return "adminPanel";
     }
 
     @PostMapping("/delete")
     public String userDelete(
-            @RequestParam("userId") User user
+            @RequestParam("userId") User user,
+            Model model
     ) {
+        model.addAttribute("users", userService.findAll());
+        model.addAttribute("alert", "User " + user.getUsername() + " is updated");
+
         userService.deleteUser(user);
-        return "redirect:/adminpanel";
+
+        return "adminPanel";
     }
 }
