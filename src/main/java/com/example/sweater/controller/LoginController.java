@@ -8,10 +8,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class LoginController {
@@ -61,11 +61,69 @@ public class LoginController {
             return "forgotPassword";
         }
 
-        //send message
+        userService.resetPassword(user);
 
         model.addAttribute("alert", "Check your email for a link to reset your password");
         model.addAttribute("alertType", "primary");
 
         return "login";
     }
+
+    @GetMapping("/reset/{code}")
+    public String resetCode(
+            @PathVariable String code,
+            Model model)
+    {
+        User user = userService.findByActivationCode(code);
+
+        if (user == null) {
+            model.addAttribute("alert", "Reset code is not found");
+            model.addAttribute("alertType", "danger");
+            return "login";
+        }
+
+        model.addAttribute("user", user);
+
+        System.out.println(user);
+
+        return "newPassword";
+    }
+
+    @PostMapping("/reset")
+    public String updatePassword(
+            @RequestParam("userId") User user,
+            @RequestParam String newPassword,
+            @RequestParam String passwordConfirm,
+            Model model)
+    {
+        Map<String, String> errors = new HashMap<>();
+
+        if (newPassword.length() < 5) {
+            errors.put("newPasswordError", "Password should contain at least 5 characters");
+        }
+
+        if (!newPassword.equals(passwordConfirm)) {
+            errors.put("passwordConfirmError", "Passwords are different");
+        }
+
+        if (errors.size() > 0) {
+            model.addAttribute("user", user);
+            model.mergeAttributes(errors);
+            return "newPassword";
+        }
+
+        boolean isUpdated = userService.updateUser(user, newPassword, user.getEmail());
+
+        if (!isUpdated) {
+            model.addAttribute("alert", "Something went wrong. Please, try again");
+            model.addAttribute("alertType", "danger");
+            return "newPassword";
+        }
+
+        model.addAttribute("alert", "Password is updated");
+        model.addAttribute("alertType", "success");
+
+        return "login";
+    }
+
 }

@@ -14,7 +14,6 @@ public class GreetingController {
             @AuthenticationPrincipal User user,
             Model model
     ) {
-
         model.addAttribute("username", user != null ? user.getUsername() : "stranger");
 
         return "greeting";

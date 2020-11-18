@@ -7,8 +7,6 @@
         <h4>Sign Up</h4>
     </div>
 
-
-
     <@r.registration/>
 
 </@c.page>

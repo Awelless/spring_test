@@ -84,13 +84,12 @@ public class UserService implements UserDetailsService {
             if (!StringUtils.isEmpty(email)) {
                 user.setActivationCode(UUID.randomUUID().toString());
             }
+        } else {
+            user.setActivationCode(null);
         }
 
         if (!StringUtils.isEmpty(password)) {
             user.setPassword(passwordEncoder.encode(password));
-
-            System.out.println(password);
-
             isUpdated = true;
         }
 
@@ -119,7 +118,7 @@ public class UserService implements UserDetailsService {
         if (!StringUtils.isEmpty(user.getEmail())) {
             String message = String.format(
                     "Hello, %s! \n" +
-                    "Welcome to Sweater. Please, visit next link: http://localhost:8080/activate/%s",
+                            "Welcome to Sweater. Please, visit next link: http://localhost:8080/activate/%s",
                     user.getUsername(), user.getActivationCode()
             );
 
@@ -208,5 +207,25 @@ public class UserService implements UserDetailsService {
 
     public User findByEmail(String email) {
         return userRepo.findByEmail(email);
+    }
+
+    public void resetPassword(User user) {
+        user.setActivationCode(UUID.randomUUID().toString());
+
+        sendResetPasswordMessage(user);
+    }
+
+    private void sendResetPasswordMessage(User user) {
+        String message = String.format(
+                "Hello, %s! \n" +
+                        "To reset your password, visit next link: http://localhost:8080/reset/%s",
+                user.getUsername(), user.getActivationCode()
+        );
+
+        mailSender.send(user.getEmail(), "Password reset", message);
+    }
+
+    public User findByActivationCode(String code) {
+        return userRepo.findByActivationCode(code);
     }
 }

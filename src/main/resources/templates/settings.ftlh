@@ -25,7 +25,7 @@
             <form method="post" action="/settings">
                 <input type="hidden" name="_csrf" value="${_csrf.token}" />
 
-                <h6>Current password:</h6>
+                <h6>Current password</h6>
                 <div class="form-group row">
                     <div class="col">
                         <input type="password" class="form-control ${(passwordError??)?string('is-invalid', '')}"
@@ -38,7 +38,7 @@
                     </div>
                 </div>
 
-                <h6>Email:</h6>
+                <h6>Email</h6>
                 <div class="form-group row">
                     <div class="col">
                         <input type="text" class="form-control ${(emailError??)?string('is-invalid', '')}"
@@ -51,7 +51,7 @@
                     </div>
                 </div>
 
-                <h6>New password:</h6>
+                <h6>New password</h6>
                 <div class="form-group row">
                     <div class="col">
                         <input type="password" class="form-control ${(newPasswordError??)?string('is-invalid', '')}"
@@ -64,7 +64,7 @@
                     </div>
                 </div>
 
-                <h6>Confirm password:</h6>
+                <h6>Confirm password</h6>
                 <div class="form-group row">
                     <div class="col">
                         <input type="password" class="form-control ${(passwordConfirmError??)?string('is-invalid', '')}"

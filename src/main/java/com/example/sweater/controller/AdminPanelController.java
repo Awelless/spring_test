@@ -50,10 +50,11 @@ public class AdminPanelController {
             @RequestParam("userId") User user,
             Model model
     ) {
-        model.addAttribute("users", userService.findAll());
-        model.addAttribute("alert", "User " + user.getUsername() + " is updated");
+        model.addAttribute("alert", "User " + user.getUsername() + " is deleted");
 
         userService.deleteUser(user);
+
+        model.addAttribute("users", userService.findAll());
 
         return "adminPanel";
     }

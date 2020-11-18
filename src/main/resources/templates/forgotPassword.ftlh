@@ -3,18 +3,19 @@
 <@c.page "Password reset" true>
 
     <div class="mb-3 text-center">
-        <h4>Reset password</h4>
+        <h4>Enter your email</h4>
     </div>
-
-    <#if alert??>
-        <div class="alert alert-${alertType}">
-            ${alert}
-        </div>
-    </#if>
 
     <div class="row">
         <div class="col-sm-4"></div>
         <div class="col-sm-4">
+
+            <#if alert??>
+                <div class="alert alert-${alertType}">
+                    ${alert}
+                </div>
+            </#if>
+
             <form action="/forgot_password" method="post">
                 <input type="hidden" name="_csrf" value="${_csrf.token}" />
 
