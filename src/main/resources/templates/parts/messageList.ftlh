@@ -21,14 +21,18 @@
             <div class="card-footer text-muted">
                 <div class="row">
                     <div class="col-sm-3 align-self-center">
-                        <a href="/messages/${message.id}/like">
-                            <#if message.meLiked>
-                                <i class="fas fa-heart"></i>
-                            <#else>
-                                <i class="far fa-heart"></i>
-                            </#if>
-                        ${message.likes}
-                        </a>
+                        <form action="/messages/${message.id}/like" method="get">
+                            <button class="btn btn-sm btn-light" type="submit">
+                                <div class="text-primary">
+                                <#if message.meLiked>
+                                    <i class="fas fa-heart"></i>
+                                <#else>
+                                    <i class="far fa-heart"></i>
+                                </#if>
+                                ${message.likes}
+                                </div>
+                            </button>
+                        </form>
                     </div>
                     <div class="col align-self-center">
                         <a href="/user/${message.author.id}">${message.authorName}</a>

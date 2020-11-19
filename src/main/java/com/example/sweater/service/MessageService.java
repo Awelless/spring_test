@@ -1,5 +1,6 @@
 package com.example.sweater.service;
 
+import com.cloudinary.Cloudinary;
 import com.example.sweater.domain.Message;
 import com.example.sweater.domain.User;
 import com.example.sweater.domain.dto.MessageDto;
@@ -10,12 +11,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -23,6 +27,8 @@ import java.util.stream.Collectors;
 public class MessageService {
     @Autowired
     private MessageRepo messageRepo;
+    @Autowired
+    private Cloudinary cloudinary;
     @Value(value = "${upload.path}")
     private String uploadPath;
 
@@ -35,16 +41,9 @@ public class MessageService {
             return;
         }
 
-        File uploadDir = new File(uploadPath);
+        Map uploadResponse = cloudinary.uploader().upload(file.getBytes(), Collections.emptyMap());
 
-        if (!uploadDir.exists()) {
-            uploadDir.mkdir();
-        }
-
-        String resultFilename = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
-        file.transferTo(new File(uploadPath + "/" + resultFilename));
-
-        message.setFilename(resultFilename);
+        message.setFilename(uploadResponse.get("public_id").toString() + "." + uploadResponse.get("format").toString());
     }
 
     public Page<MessageDto> findAll(User user, Pageable pageable) {

@@ -1,5 +1,6 @@
 package com.example.sweater.config;
 
+import com.cloudinary.Cloudinary;
 import com.example.sweater.util.RedirectInterceptor;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,13 +11,17 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Configuration
 @EnableWebMvc
 public class MvcConfig implements WebMvcConfigurer {
     @Value("${upload.path}")
     private String uploadPath;
+    @Value("${cloudinary.environment}")
+    private String cloudinaryUrl;
 
     @Bean
     public EmailValidator getEmailValidator() {
@@ -28,16 +33,21 @@ public class MvcConfig implements WebMvcConfigurer {
         return new RestTemplate();
     }
 
+    @Bean
+    public Cloudinary getCloudinary() {
+        return new Cloudinary(cloudinaryUrl);
+    }
+
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/img/**")
-                .addResourceLocations("file:///" + uploadPath + "/");
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/img/**")
+                .addResourceLocations(uploadPath + "/");
     }
 
     @Override
