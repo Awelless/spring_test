@@ -50,8 +50,8 @@
                     <div class="custom-file">
                         <input type="file" name="file" accept="image/*" class="custom-file-input" id="customFile" />
                         <label class="custom-file-label" for="customFile">
-                            <#if isEditBox && message.filename??>
-                                ${message.getNormalFilename()}
+                            <#if isEditBox && message.normalFilename??>
+                                ${message.normalFilename}
                             <#else>
                                 Choose file
                             </#if>

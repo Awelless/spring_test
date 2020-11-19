@@ -1,0 +1,1 @@
+alter table message add normal_filename varchar (255);

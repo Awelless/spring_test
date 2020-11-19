@@ -30,6 +30,7 @@ public class Message {
     private User author;
 
     private String filename;
+    private String normalFilename;
 
     @ManyToMany
     @JoinTable(
@@ -41,10 +42,6 @@ public class Message {
 
     public String getAuthorName() {
         return MessageHelper.getAuthorName(author);
-    }
-
-    public String getNormalFilename() {
-        return filename.substring(37);
     }
 
     @Override

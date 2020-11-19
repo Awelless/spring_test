@@ -44,6 +44,7 @@ public class MessageService {
         Map uploadResponse = cloudinary.uploader().upload(file.getBytes(), Collections.emptyMap());
 
         message.setFilename(uploadResponse.get("public_id").toString() + "." + uploadResponse.get("format").toString());
+        message.setNormalFilename(file.getOriginalFilename());
     }
 
     public Page<MessageDto> findAll(User user, Pageable pageable) {
