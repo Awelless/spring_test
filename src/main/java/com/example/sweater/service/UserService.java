@@ -5,6 +5,7 @@ import com.example.sweater.domain.User;
 import com.example.sweater.exception.UserNotUniqueException;
 import com.example.sweater.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,6 +19,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
+    @Value("${domainName}")
+    private String domainName;
     @Autowired
     private UserRepo userRepo;
     @Autowired
@@ -105,8 +108,8 @@ public class UserService implements UserDetailsService {
         if (!StringUtils.isEmpty(user.getNewEmail())) {
             String message = String.format(
                     "Hello, %s! \n" +
-                            "To update your e-mail address, visit next link: http://localhost:8080/settings/update/%s",
-                    user.getUsername(), user.getActivationCode()
+                            "To update your e-mail address, visit next link: %s/settings/update/%s",
+                    user.getUsername(), domainName, user.getActivationCode()
             );
 
             mailSender.send(user.getNewEmail(), "Account update", message);
@@ -117,8 +120,8 @@ public class UserService implements UserDetailsService {
         if (!StringUtils.isEmpty(user.getEmail())) {
             String message = String.format(
                     "Hello, %s! \n" +
-                            "Welcome to Sweater. Please, visit next link: http://localhost:8080/activate/%s",
-                    user.getUsername(), user.getActivationCode()
+                            "Welcome to Sweater. Please, visit next link: %s/activate/%s",
+                    user.getUsername(), domainName, user.getActivationCode()
             );
 
             mailSender.send(user.getEmail(), "Activation code", message);
@@ -217,8 +220,8 @@ public class UserService implements UserDetailsService {
     private void sendResetPasswordMessage(User user) {
         String message = String.format(
                 "Hello, %s! \n" +
-                        "To reset your password, visit next link: http://localhost:8080/reset/%s",
-                user.getUsername(), user.getActivationCode()
+                        "To reset your password, visit next link: %s/reset/%s",
+                user.getUsername(), domainName, user.getActivationCode()
         );
 
         mailSender.send(user.getEmail(), "Password reset", message);
