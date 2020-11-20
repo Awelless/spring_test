@@ -17,4 +17,5 @@ com\example\sweater\domain\util\MessageHelper.class
 com\example\sweater\service\MessageService.class
 com\example\sweater\util\RedirectInterceptor.class
 com\example\sweater\config\MailConfig.class
+com\example\sweater\config\PasswordEncoderConfig.class
 com\example\sweater\controller\SearchController.class

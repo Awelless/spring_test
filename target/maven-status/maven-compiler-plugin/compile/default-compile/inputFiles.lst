@@ -7,6 +7,7 @@ E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\config\Mai
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\controller\GreetingController.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\controller\RegistrationController.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\domain\dto\CaptchaResponseDto.java
+E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\config\PasswordEncoderConfig.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\domain\User.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\controller\ErrorController.java
 E:\Programming\Projects\spring_test\src\main\java\com\example\sweater\domain\Message.java
