@@ -21,7 +21,7 @@ public class ControllerUtils {
     }
 
     static List<String> getTags(String source) {
-        Pattern pattern = Pattern.compile("\\w+");
+        Pattern pattern = Pattern.compile("[\\p{L}|\\p{N}|_]+");
         Matcher matcher = pattern.matcher(source);
 
         List<String> tags = new ArrayList<>();

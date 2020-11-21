@@ -47,6 +47,10 @@ public class Message {
     }
 
     public String getTagsAsString() {
+        if (tags == null || tags.isEmpty()) {
+            return "";
+        }
+
         StringBuilder builder = new StringBuilder();
         for (String tag : tags) {
             builder.append('#');

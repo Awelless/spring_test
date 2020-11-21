@@ -38,9 +38,6 @@ public class UserController {
     ) {
         Page<Message> page = messageService.findByAuthor(user, pageable);
 
-        System.out.println(message.getId());
-        System.out.println(message.getText());
-
         model.addAttribute("page", page);
         model.addAttribute("url", "/" + user.getId());
         model.addAttribute("message", message);
@@ -59,7 +56,7 @@ public class UserController {
             @PathVariable("user") Long userId,
             @RequestParam("messageId") Message message,
             @RequestParam("text") String newText,
-            @RequestParam("tag") String newTags,
+            @RequestParam("messageTags") String newTags,
             @RequestParam("file") MultipartFile newFile
     ) throws IOException {
 
@@ -67,9 +64,8 @@ public class UserController {
             if (!StringUtils.isEmpty(newText)) {
                 message.setText(newText);
             }
-            if (!StringUtils.isEmpty(newTags)) {
-                message.setTags(ControllerUtils.getTags(newTags));
-            }
+
+            message.setTags(ControllerUtils.getTags(newTags));
 
             messageService.saveFile(message, newFile);
             messageService.saveMessage(message);
