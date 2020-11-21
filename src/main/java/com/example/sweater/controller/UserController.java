@@ -36,8 +36,10 @@ public class UserController {
             @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC, value = 50) Pageable pageable,
             Model model
     ) {
-
         Page<Message> page = messageService.findByAuthor(user, pageable);
+
+        System.out.println(message.getId());
+        System.out.println(message.getText());
 
         model.addAttribute("page", page);
         model.addAttribute("url", "/" + user.getId());
