@@ -12,7 +12,7 @@
 
 
 <#if !isEditBox>
-    <div class="mt-3">
+    <div>
         <a class="btn btn-primary" data-toggle="collapse" href="#messageBox"
            role="button" aria-expanded="false" aria-controls="collapseExample">
             Add new message
@@ -21,7 +21,7 @@
 </#if>
 
 <div class="collapse <#if message??>show</#if>" id="messageBox">
-    <div class="form-group mt-2">
+    <div class="form-group">
         <form method="post" enctype="multipart/form-data">
             <input type="hidden" name="_csrf" value="${_csrf.token}" />
             <#if isEditBox>

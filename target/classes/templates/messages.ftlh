@@ -4,12 +4,28 @@
 
 <@c.page "All Messages" false>
 
-    <div class="form-row">
-        <form method="get" action="/messages" class="form-inline">
-            <input type="text" name="filter" value="${filter?ifExists}" class="form-control ml-1" placeholder="search by tag" />
-            <button type="submit" class="btn btn-primary ml-2">Search</button>
-        </form>
-    </div>
+    <form method="get" action="/messages">
+        <div id="filterFieldClass"></div>
+    </form>
+
+    <script defer="defer">
+        let filterFieldClass = null
+
+        if (window.innerWidth < 800) {
+            filterFieldClass = 'col-sm-10 mb-2'
+        } else {
+            filterFieldClass = 'col-sm-3'
+        }
+        document.getElementById("filterFieldClass").innerHTML =
+            '<div class="form-group row">' +
+            '<div class="' + filterFieldClass + '">' +
+            '<input type="text" name="filter" value="${filter?ifExists}" class="form-control" placeholder="search by tag" />' +
+            '</div>' +
+            '<div class="col-sm-1">' +
+            '<button type="submit" class="btn btn-primary">Search</button>' +
+            '</div>' +
+            '</div>'
+    </script>
 
     <@me.messageBox false />
 
