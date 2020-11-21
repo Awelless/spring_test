@@ -3,7 +3,6 @@ package com.example.sweater.controller;
 import com.example.sweater.domain.Message;
 import com.example.sweater.domain.Role;
 import com.example.sweater.domain.User;
-import com.example.sweater.domain.dto.MessageDto;
 import com.example.sweater.service.MessageService;
 import com.example.sweater.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
@@ -37,7 +37,7 @@ public class UserController {
             Model model
     ) {
 
-        Page<MessageDto> page = messageService.findByUser(currentUser, user, pageable);
+        Page<Message> page = messageService.findByAuthor(user, pageable);
 
         model.addAttribute("page", page);
         model.addAttribute("url", "/" + user.getId());
@@ -57,7 +57,7 @@ public class UserController {
             @PathVariable("user") Long userId,
             @RequestParam("messageId") Message message,
             @RequestParam("text") String newText,
-            @RequestParam("tag") String newTag,
+            @RequestParam("tag") String newTags,
             @RequestParam("file") MultipartFile newFile
     ) throws IOException {
 
@@ -65,8 +65,8 @@ public class UserController {
             if (!StringUtils.isEmpty(newText)) {
                 message.setText(newText);
             }
-            if (!StringUtils.isEmpty(newTag)) {
-                message.setTag(newTag);
+            if (!StringUtils.isEmpty(newTags)) {
+                message.setTags(ControllerUtils.getTags(newTags));
             }
 
             messageService.saveFile(message, newFile);

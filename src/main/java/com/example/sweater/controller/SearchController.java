@@ -31,7 +31,7 @@ public class SearchController {
 
         if ("message".equals(type)) {
             model.addAttribute("isMessageList", true);
-            model.addAttribute("page", messageService.findByPattern(pattern, currentUser, pageable));
+            model.addAttribute("page", messageService.findByPattern(pattern, pageable));
         } else {
             model.addAttribute("isUserList", true);
             model.addAttribute("users", userService.findByPattern(pattern, pageable));

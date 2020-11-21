@@ -2,7 +2,6 @@ package com.example.sweater.controller;
 
 import com.example.sweater.domain.Message;
 import com.example.sweater.domain.User;
-import com.example.sweater.domain.dto.MessageDto;
 import com.example.sweater.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +22,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class MessageController {
@@ -36,7 +36,7 @@ public class MessageController {
             @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC, value = 50) Pageable pageable,
             Model model
     ) {
-        Page<MessageDto> page = messageService.findByTag(filter, currentUser, pageable);
+        Page<Message> page = messageService.findByTag(filter, pageable);
 
         model.addAttribute("page", page);
         model.addAttribute("url", "/messages");
@@ -48,11 +48,12 @@ public class MessageController {
     @PostMapping("/messages")
     public String addMessage(
             @AuthenticationPrincipal User currentUser,
+            String messageTags,
+            @RequestParam("file") MultipartFile file,
             @Valid Message message,
             BindingResult bindingResult,
             @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC, value = 50) Pageable pageable,
-            Model model,
-            @RequestParam("file") MultipartFile file
+            Model model
     ) throws IOException {
 
         message.setAuthor(currentUser);
@@ -61,11 +62,13 @@ public class MessageController {
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
             model.addAttribute("message", message);
-            model.addAttribute("page", messageService.findAll(currentUser, pageable));
+            model.addAttribute("page", messageService.findAll(pageable));
             return "messages";
         }
 
         messageService.saveFile(message, file);
+
+        message.setTags(ControllerUtils.getTags(messageTags));
         messageService.saveMessage(message);
 
         return "redirect:/messages";
@@ -78,7 +81,7 @@ public class MessageController {
             Model model
     ) {
 
-        Page<MessageDto> page = messageService.findSubscriptionMessages(currentUser, pageable);
+        Page<Message> page = messageService.findSubscriptionMessages(currentUser, pageable);
 
         model.addAttribute("page", page);
         model.addAttribute("url", "/news");

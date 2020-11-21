@@ -16,7 +16,9 @@
             </#if>
             <div class="m-2">
                 <span>${message.text}</span><br />
-                <i>#${message.tag}</i>
+            <#list message.tags as tag>
+                <a href="/messages?filter=${tag}">#${tag}</a>
+            </#list>
             </div>
             <div class="card-footer text-muted">
                 <div class="row">
@@ -24,12 +26,12 @@
                         <form action="/messages/${message.id}/like" method="get">
                             <button class="btn btn-sm btn-light" type="submit">
                                 <div class="text-primary">
-                                <#if message.meLiked>
+                                <#if message.isUserLiked(currentUser)>
                                     <i class="fas fa-heart"></i>
                                 <#else>
                                     <i class="far fa-heart"></i>
                                 </#if>
-                                ${message.likes}
+                                ${message.getLikesNumber()}
                                 </div>
                             </button>
                         </form>

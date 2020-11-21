@@ -39,7 +39,7 @@
             <div class="row">
                 <div class="form-group col-md-8">
                     <input type="text" class="form-control ${(tagError??)?string('is-invalid', '')}"
-                           value="<#if message??>${message.tag}</#if>" name="tag" placeholder="tag" />
+                           value="<#if message??>${message.getTagsAsString()}</#if>" name="messageTags" placeholder="tags, one by one" />
                     <#if tagError??>
                         <div class="invalid-feedback">
                             ${tagError}
