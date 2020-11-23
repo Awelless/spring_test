@@ -17,7 +17,7 @@
             <div class="m-2">
                 <span>${message.text}</span><br />
             <#list message.tags as tag>
-                <a href="/messages?filter=${tag}">#${tag}</a>
+                <a data-turbolinks="false" href="/messages?filter=${tag}">#${tag}</a>
             </#list>
             </div>
             <div class="card-footer text-muted">

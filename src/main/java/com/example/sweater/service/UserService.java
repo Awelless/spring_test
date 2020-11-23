@@ -190,7 +190,7 @@ public class UserService implements UserDetailsService {
     public List<User> findByPattern(String pattern, Pageable pageable) {
         List<User> suitableUsers = userRepo.findAll()
                 .stream()
-                .filter(user -> user.getUsername().contains(pattern))
+                .filter(user -> user.getUsername().toLowerCase().contains(pattern.toLowerCase()))
                 .collect(Collectors.toList());
 
         suitableUsers.sort(new Comparator<User>() {

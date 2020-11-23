@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -57,7 +58,17 @@ public class MessageService {
         }
 
         Page<Message> messages = new PageImpl<>(messageRepo.findAll(pageable).stream()
-                .filter(message -> message.getTags().contains(filter))
+                .filter(message -> {
+                            List<String> tags = message.getTags();
+
+                            for (int i = 0; i < tags.size(); ++i) {
+                                if (tags.get(i).toLowerCase().equals(filter.toLowerCase())) {
+                                    return true;
+                                }
+                            }
+
+                            return false;
+                })
                 .sorted(new Comparator<Message>() {
                     @Override
                     public int compare(Message a, Message b) {
@@ -87,8 +98,9 @@ public class MessageService {
     }
 
     public Page<Message> findByPattern(String pattern, Pageable pageable) {
+
         Page<Message> messages = new PageImpl<>(messageRepo.findAll(pageable).stream()
-                .filter(message -> message.getText().contains(pattern))
+                .filter(message -> message.getText().toLowerCase().contains(pattern.toLowerCase()))
                 .sorted(new Comparator<Message>() {
                     @Override
                     public int compare(Message a, Message b) {
